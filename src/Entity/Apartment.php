@@ -136,4 +136,5 @@ class Apartment
 
         return $this;
     }
+
 }

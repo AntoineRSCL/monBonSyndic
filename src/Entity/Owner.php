@@ -22,11 +22,11 @@ class Owner
     #[ORM\JoinColumn(nullable: false)]
     private ?Person $person = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $start = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $startDate = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $end = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $endDate = null;
 
     public function getId(): ?int
     {
@@ -57,26 +57,26 @@ class Owner
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTimeInterface
     {
-        return $this->start;
+        return $this->startDate;
     }
 
-    public function setStart(\DateTimeInterface $start): static
+    public function setStartDate(\DateTimeInterface $startDate): static
     {
-        $this->start = $start;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEnd(): ?\DateTimeInterface
+    public function getEndDate(): ?\DateTimeInterface
     {
-        return $this->end;
+        return $this->endDate;
     }
 
-    public function setEnd(?\DateTimeInterface $end): static
+    public function setEndDate(?\DateTimeInterface $endDate): static
     {
-        $this->end = $end;
+        $this->endDate = $endDate;
 
         return $this;
     }

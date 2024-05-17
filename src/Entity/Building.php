@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\BuildingRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BuildingRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: BuildingRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Building
 {
     #[ORM\Id]
@@ -52,6 +54,22 @@ class Building
     {
         $this->apartments = new ArrayCollection();
         $this->people = new ArrayCollection();
+    }
+
+    /**
+     * Permet de creer un slug automatiquement avec le nom de l'immeuble
+     *
+     * @return void
+     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function initializeSlug()
+    {
+        if(empty($this->slug))
+        {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->name);
+        }
     }
 
     public function getId(): ?int
@@ -201,7 +219,5 @@ class Building
         }
 
         return $this;
-    }
-
-    
+    }    
 }

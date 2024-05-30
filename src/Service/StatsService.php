@@ -1,0 +1,53 @@
+<?php 
+
+namespace App\Service;
+
+use Doctrine\ORM\EntityManagerInterface;
+
+class  StatsService{
+
+    public function __construct(private EntityManagerInterface $manager)
+    {}
+
+    /**
+     * Fonction qui recupere le nombre de batiment enregistre
+     *
+     * @return integer
+     */
+    public function getBuildingCount(): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(b) FROM App\Entity\Building b")->getSingleScalarResult();
+    }
+
+    /**
+     * Fonction qui recupere le nombre d'appartement enregistre
+     *
+     * @return integer
+     */
+    public function getApartmentCount(): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(a) FROM App\Entity\Apartment a")->getSingleScalarResult();
+    }
+
+    /**
+     * Permet de retourner le nombre de personne dans un building specifique
+     *
+     * @param [type] $building
+     * @return integer
+     */
+    public function getPersonCountByBuilding($building): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(p) FROM App\Entity\Person p WHERE p.building = :building")
+            ->setParameter('building', $building)
+            ->getSingleScalarResult();
+    }
+
+    public function getOwnerCountByBuilding($building): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(o) FROM App\Entity\Owner o WHERE o.apartment IN (
+            SELECT a FROM App\Entity\Apartment a WHERE a.building = :building
+        )")
+        ->setParameter('building', $building)
+        ->getSingleScalarResult();
+    }
+}

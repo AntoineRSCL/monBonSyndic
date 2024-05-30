@@ -41,6 +41,7 @@ class AppFixtures extends Fixture
             ->setLocality("Bruxelles")
             ->setCountry("Belgique")
             ->setOptin(true)
+            ->setUsername("bautAntoine")
             ->setPassword($this->passwordHasher->hashPassword($superadmin, 'superadmin'))
             ->setRoles(["ROLE_SUPERADMIN"]);
 
@@ -60,7 +61,30 @@ class AppFixtures extends Fixture
 
             $manager->persist($building);
 
+            // Création d'un admin pour cet immeuble
+            $admin = new Person();
+            $admin->setName($faker->lastName())
+                ->setFirstName($faker->firstName())
+                ->setEmail($faker->email())
+                ->setAddress($building->getAddress()) // Utilisation de l'adresse de l'immeuble
+                ->setNumber($faker->buildingNumber())
+                ->setZip($building->getZip()) // Utilisation du code postal de l'immeuble
+                ->setLocality($building->getLocality()) // Utilisation de la localité de l'immeuble
+                ->setCountry($faker->country())
+                ->setOptin(true)
+                ->setUsername("admin_" . $i) // Nom d'utilisateur basé sur le nom de l'immeuble
+                ->setPassword($this->passwordHasher->hashPassword($admin, 'admin'))
+                ->setRoles(["ROLE_ADMIN"]);
+
+            // Assignation de l'immeuble à cet admin
+            $admin->setBuilding($building);
+
+            // Persistance de l'admin
+            $manager->persist($admin);
+
             $buildings[] = $building;
+
+
         }
 
 
@@ -98,6 +122,7 @@ class AppFixtures extends Fixture
                 ->setLocality($faker->cityName())
                 ->setCountry("Belgique")
                 ->setOptin($faker->boolean())
+                ->setBuilding($buildings[rand(0, count($buildings)-1)])
                 ->setRoles(["ROLE_USER"]);
 
             $manager->persist($person);

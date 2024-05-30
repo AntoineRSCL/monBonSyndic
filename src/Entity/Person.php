@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Person;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PersonRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
@@ -90,7 +93,7 @@ class Person implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function initializeSlug()
+    public function initializeSlug(): void
     {
         if(empty($this->slug))
         {
@@ -100,25 +103,21 @@ class Person implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * Permet de creer automatiquement un username avec les 5premieres lettre du nom, prenom et id de l'immeuble et verifie qu'il n'existe pas deja
-     *
-     * @return void
-     */
-     #[ORM\PrePersist]
-     #[ORM\PreUpdate]
-    public function initializeUsername()
+    * Permet de créer automatiquement un username unique
+    *
+    * @ORM\PrePersist
+    * @ORM\PreUpdate
+    */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function generateUniqueUsername(): void
     {
         if (empty($this->username)) {
-            $namePart = substr($this->name, 0, 5);
-            $firstnamePart = substr($this->firstname, 0, 5);
-            if($this->building){
-                $buildingId = $this->building->getId();
-                $this->username = strtolower($namePart . $firstnamePart . $buildingId);
-            }else{
-                $this->username = strtolower($namePart . $firstnamePart);
-            }
-            
+            // Génération du username basé sur un identifiant unique
+            $username = 'user_' . uniqid();
 
+            // Affectation du username généré
+            $this->username = $username;
         }
     }
 

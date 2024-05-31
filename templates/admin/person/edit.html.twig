@@ -1,0 +1,91 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Modification d'une personne{% endblock %}
+
+{% form_theme myForm _self %}
+
+{% block body %}
+    <div class="container">
+        <h1>Modification d'une personne</h1>
+        <form method="post">
+            {{ form_start(myForm) }}
+            
+            {# Champ name #}
+            <div class="form-group">
+                {{ form_label(myForm.name, 'Nom', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.name, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.name) }}
+            </div>
+            
+            {# Champ firstname #}
+            <div class="form-group">
+                {{ form_label(myForm.firstname, 'Prénom', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.firstname, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.firstname) }}
+            </div>
+            
+            {# Champ email #}
+            <div class="form-group">
+                {{ form_label(myForm.email, 'Email', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.email) }}
+            </div>
+            
+            {# Champ phone #}
+            <div class="form-group">
+                {{ form_label(myForm.phone, 'Téléphone', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.phone, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.phone) }}
+            </div>
+            
+            {# Champ address #}
+            <div class="form-group">
+                {{ form_label(myForm.address, 'Adresse', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.address, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.address) }}
+            </div>
+            
+            {# Champ number #}
+            <div class="form-group">
+                {{ form_label(myForm.number, 'Numéro', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.number, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.number) }}
+            </div>
+            
+            {# Champ zip #}
+            <div class="form-group">
+                {{ form_label(myForm.zip, 'Code postal', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.zip, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.zip) }}
+            </div>
+            
+            {# Champ locality #}
+            <div class="form-group">
+                {{ form_label(myForm.locality, 'Localité', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.locality, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.locality) }}
+            </div>
+            
+            {# Champ country #}
+            <div class="form-group">
+                {{ form_label(myForm.country, 'Pays', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.country, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.country) }}
+            </div>
+            
+            {# Champ optin #}
+            <div class="form-group form-check">
+                {{ form_widget(myForm.optin, {'label_attr': {'class': 'form-check-label'}, 'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(myForm.optin, 'Accepter les newsletters', {'label_attr': {'class': 'form-check-label'}}) }}
+                {{ form_errors(myForm.optin) }}
+            </div>
+            
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+            
+            {{ form_end(myForm) }}
+        </form>
+    </div>
+{% endblock %}

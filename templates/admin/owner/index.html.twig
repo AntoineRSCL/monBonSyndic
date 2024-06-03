@@ -4,7 +4,11 @@
 
 {% block body %}
     <div class="container-fluid">
-        <h1 class="my-2">Administration des locataires</h1>
+        <h1 class="my-2">Administration des bails</h1>
+        <a href="{{ path('admin_owner_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter un bail</span>
+        </a>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -23,7 +27,17 @@
                         <td>{{ owner.apartment.reference }}</td>
                         <td>{{ owner.person.fullName }}</td>
                         <td>{{ owner.startDate|date('d-m-Y') }}</td>
-                        <td>{{ owner.endDate|date('d-m-Y') }}</td>
+                        <td>
+                            {% if owner.endDate is not null %}
+                                {{ owner.endDate|date('d-m-Y') }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{{path("admin_owner_edit",{"id":owner.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="{{path("admin_owner_delete",{"id":owner.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

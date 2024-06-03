@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Owner;
+use App\Form\OwnerType;
 use App\Service\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +39,7 @@ class AdminOwnerController extends AbstractController
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $owner = new Owner();
-        $form = $this->createForm(PersonType::class, $person);
+        $form = $this->createForm(OwnerType::class, $owner);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -48,24 +49,59 @@ class AdminOwnerController extends AbstractController
             // Récupérer le bâtiment associé à l'utilisateur connecté
             $building = $admin->getBuilding();
 
-            $person->setBuilding($building)
-                ->setRoles(["ROLE_USER"]);
-            $manager->persist($person);
+            $manager->persist($owner);
             // j'envoie les persistances dans la bdd
             $manager->flush();
 
             $this->addFlash(
                 'success',
-                "La personne <strong>".$person->getFullName()."</strong> a bien été crée"
+                "Le bail pour l'appartement <strong>" . $owner->getApartment()->getReference() . "</strong> avec la personne <strong>" . $owner->getPerson()->getFullName() . "</strong> a bien été créé."
             );
 
-            return $this->redirectToRoute('admin_person_index',[
+            return $this->redirectToRoute('admin_owner_index',[
                 
             ]);
         }
 
-        return $this->render("admin/person/new.html.twig",[
+        return $this->render("admin/owner/new.html.twig",[
             'myForm' => $form->createView()
         ]);
+    }
+
+    #[Route('admin/owner/edit/{id}', name: 'admin_owner_edit')]
+    public function edit(Owner $owner, Request $request, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(OwnerType::class, $owner);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Le bail pour l'appartement <strong>" . $owner->getApartment()->getReference() . "</strong> avec la personne <strong>" . $owner->getPerson()->getFullName() . "</strong> a bien été mis à jour."
+            );
+
+            return $this->redirectToRoute('admin_owner_index');
+        }
+
+        return $this->render('admin/owner/edit.html.twig', [
+            'myForm' => $form->createView(),
+            'owner' => $owner
+        ]);
+    }
+
+    #[Route('admin/owner/delete/{id}', name: 'admin_owner_delete')]
+    public function delete(Owner $owner, EntityManagerInterface $manager): Response
+    {
+        $manager->remove($owner);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Le bail pour l'appartement <strong>" . $owner->getApartment()->getReference() . "</strong> avec la personne <strong>" . $owner->getPerson()->getFullName() . "</strong> a bien été supprimé."
+        );
+
+        return $this->redirectToRoute('admin_owner_index');
     }
 }

@@ -1,0 +1,49 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Création d'un bail{% endblock %}
+
+{% form_theme myForm _self %}
+
+{% block body %}
+    <div class="container">
+        <h1>Création d'un bail</h1>
+        <form method="post">
+            {{ form_start(myForm) }}
+
+            {# Champ startDate #}
+            <div class="form-group">
+                {{ form_label(myForm.startDate, 'Date de début', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.startDate, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.startDate) }}
+            </div>
+
+            {# Champ endDate #}
+            <div class="form-group">
+                {{ form_label(myForm.endDate, 'Date de fin', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.endDate, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.endDate) }}
+            </div>
+
+            {# Champ apartment #}
+            <div class="form-group">
+                {{ form_label(myForm.apartment, 'Appartement', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.apartment, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.apartment) }}
+            </div>
+
+            {# Champ person #}
+            <div class="form-group">
+                {{ form_label(myForm.person, 'Personne', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.person, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.person) }}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+
+            {{ form_end(myForm) }}
+        </form>
+    </div>
+{% endblock %}

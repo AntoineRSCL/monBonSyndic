@@ -15,15 +15,15 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('admin_dashboard') }}"><i class="fas fa-chart-line"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_person_index') }}"><i class="fa-solid fa-person"></i> Personnes</a>
+                    <a class="nav-link" href="{{ path('admin_person_index') }}"><i class="fa-solid fa-person me-1"></i> Personnes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-folder"></i> Propriétaires</a>
+                    <a class="nav-link" href="{{ path('admin_owner_index') }}"><i class="fa-solid fa-person-shelter me-1"></i>Propriétaires</a>
                 </li>
           </ul>
           <ul class="navbar-nav ms-auto me-5">

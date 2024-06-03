@@ -192,7 +192,7 @@ class PaginationService
 
     /**
      * Permet de récupérer les données paginées pour une entité spécifique
-     * @throws \Exception si la propriété $entityClass n'est pas définie
+     * @throws \Exception si la propriété $entityClass n'est pas configurée
      * @return array
      */
     public function getData(): array
@@ -201,14 +201,39 @@ class PaginationService
             throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer! Utilisez la méthode setEntityClass() de votre objet PaginationService");
         }
 
-        // Calculer l'offset
         $offset = $this->currentPage * $this->limit - $this->limit;
 
-        // Récupérer les données filtrées par critères
-        return $this->manager
-                    ->getRepository($this->entityClass)
-                    ->findBy($this->criteria, $this->order, $this->limit, $offset);
+        $queryBuilder = $this->manager
+            ->getRepository($this->entityClass)
+            ->createQueryBuilder('e');
+
+        foreach ($this->criteria as $field => $value) {
+            // Vérifier si le critère nécessite une jointure
+            if (strpos($field, '.') !== false) {
+                list($relation, $relatedField) = explode('.', $field);
+                $queryBuilder->join("e.$relation", 'r')
+                            ->andWhere("r.$relatedField = :$relatedField")
+                            ->setParameter($relatedField, $value);
+            } else {
+                $queryBuilder->andWhere("e.$field = :$field")
+                            ->setParameter($field, $value);
+            }
+        }
+
+        if ($this->order) {
+            foreach ($this->order as $sort => $order) {
+                $queryBuilder->addOrderBy("e.$sort", $order);
+            }
+        }
+
+        return $queryBuilder
+            ->setFirstResult($offset)
+            ->setMaxResults($this->limit)
+            ->getQuery()
+            ->getResult();
     }
+
+
 
     /**
      * Permet de récupérer le nombre de pages qui existent pour une entité particulière
@@ -221,14 +246,31 @@ class PaginationService
         if (empty($this->entityClass)) {
             throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer! Utilisez la méthode setEntityClass() de votre objet PaginationService");
         }
-
-        // Compter le total des enregistrements de la table en tenant compte des critères
-        $total = count($this->manager
-                        ->getRepository($this->entityClass)
-                        ->findBy($this->criteria));
-
+    
+        $queryBuilder = $this->manager
+            ->getRepository($this->entityClass)
+            ->createQueryBuilder('e')
+            ->select('COUNT(e.id)');
+    
+        foreach ($this->criteria as $field => $value) {
+            // Vérifier si le critère nécessite une jointure
+            if (strpos($field, '.') !== false) {
+                list($relation, $relatedField) = explode('.', $field);
+                $queryBuilder->join("e.$relation", 'r')
+                             ->andWhere("r.$relatedField = :$relatedField")
+                             ->setParameter($relatedField, $value);
+            } else {
+                $queryBuilder->andWhere("e.$field = :$field")
+                             ->setParameter($field, $value);
+            }
+        }
+    
+        $total = $queryBuilder->getQuery()->getSingleScalarResult();
+    
         return ceil($total / $this->limit);
     }
+    
+
 
     /**
      * Permet d'afficher le rendu de la navigation au sein d'un template Twig

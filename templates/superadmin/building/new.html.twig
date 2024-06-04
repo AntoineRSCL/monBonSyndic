@@ -1,0 +1,70 @@
+{% extends "superadmin/base.html.twig" %}
+
+{% block title %}Création d'un bâtiment{% endblock %}
+
+{% form_theme myForm _self %}
+
+{% block body %}
+    <div class="container">
+        <h1>Création d'un bâtiment</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form_start(myForm) }}
+
+            {# Champ name #}
+            <div class="form-group">
+                {{ form_label(myForm.name, 'Nom', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.name, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.name) }}
+            </div>
+
+            {# Champ address #}
+            <div class="form-group">
+                {{ form_label(myForm.address, 'Adresse', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.address, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.address) }}
+            </div>
+
+            {# Champ number #}
+            <div class="form-group">
+                {{ form_label(myForm.number, 'Numéro', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.number, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.number) }}
+            </div>
+
+            {# Champ zip #}
+            <div class="form-group">
+                {{ form_label(myForm.zip, 'Code postal', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.zip, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.zip) }}
+            </div>
+
+            {# Champ locality #}
+            <div class="form-group">
+                {{ form_label(myForm.locality, 'Localité', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.locality, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.locality) }}
+            </div>
+
+            {# Champ quota #}
+            <div class="form-group">
+                {{ form_label(myForm.quota, 'Quota', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.quota, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(myForm.quota) }}
+            </div>
+
+            {# Champ picture #}
+            <div class="form-group">
+                {{ form_label(myForm.picture, 'Photo', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(myForm.picture, {'attr': {'class': 'form-control-file'}}) }}
+                {{ form_errors(myForm.picture) }}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+
+            {{ form_end(myForm) }}
+        </form>
+    </div>
+{% endblock %}

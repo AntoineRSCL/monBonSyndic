@@ -1,0 +1,37 @@
+{% extends 'superadmin/base.html.twig' %}
+
+{% block title %}Hello AdminPersonController!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Administration des appartements</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Quota</th>
+                    <th>Picture</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for building in pagination.data %}
+                    <tr>
+                        <td>{{building.id}}</td>
+                        <td>{{building.name}}</td>
+                        <td>{{building.address}} {{building.number}} ,{{building.zip}} {{building.locality}}</td>
+                        <td>{{building.quota}}</td>
+                        <td>{{building.picture}}</td>
+                        <td class="text-center">
+                            <a href="{{path("superadmin_building_edit",{"id":building.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="{{path("superadmin_building_delete",{"id":building.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{pagination.display()}}
+    </div>
+{% endblock %}

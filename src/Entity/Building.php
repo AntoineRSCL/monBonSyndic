@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BuildingRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BuildingRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -18,21 +19,26 @@ class Building
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Length(min: 10, max: 100, minMessage:"Le nom doit faire plus de 10 caractères", maxMessage: "Le nom ne doit pas faire plus de 100 caractères")]
     private ?string $name = null;
 
     #[ORM\Column(length: 150)]
     private ?string $slug = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 10, max: 255, minMessage:"L'adresse doit faire plus de 10 caractères", maxMessage: "L'adresse ne doit pas faire plus de 255 caractères")]
     private ?string $address = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\Length(min: 1, max: 10, minMessage:"Le numéro doit faire plus de 1 caractère", maxMessage: "Le numéro ne doit pas faire plus de 10 caractères")]
     private ?string $number = null;
 
     #[ORM\Column(length: 4)]
+    #[Assert\Length(min: 1, max: 4, minMessage:"Le zip doit faire plus de 1 caractère", maxMessage: "Le zip ne doit pas faire plus de 4 caractères")]
     private ?string $zip = null;
 
     #[ORM\Column(length: 70)]
+    #[Assert\Length(min: 1, max: 70, minMessage:"La commune doit faire plus de 1 caractère", maxMessage: "La commune ne doit pas faire plus de 70 caractères")]
     private ?string $locality = null;
 
     #[ORM\Column]
@@ -49,6 +55,9 @@ class Building
      */
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'building')]
     private Collection $people;
+
+    #[ORM\Column(length: 255)]
+    private ?string $picture = null;
 
     public function __construct()
     {
@@ -217,6 +226,18 @@ class Building
                 $person->setBuilding(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture): static
+    {
+        $this->picture = $picture;
 
         return $this;
     }    

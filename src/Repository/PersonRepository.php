@@ -20,6 +20,21 @@ class PersonRepository extends ServiceEntityRepository implements PasswordUpgrad
     }
 
     /**
+     * Recherche les personnes par nom ou prénom
+     *
+     * @param string $query Le terme de recherche
+     * @return array Les résultats de la recherche
+     */
+    public function search(string $query): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.firstname LIKE :query OR p.name LIKE :query')
+            ->setParameter('query', '%'.$query.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void

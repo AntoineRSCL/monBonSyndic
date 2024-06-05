@@ -1,0 +1,58 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Résultats de recherche{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Résultats de recherche</h1>
+        <a href="{{ path('admin_person_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter une personne</span>
+        </a>
+
+        <form method="get" action="{{ path('admin_person_search') }}">
+            <input type="text" name="q" value="{{ app.request.query.get('q') }}" placeholder="Rechercher par prénom">
+            <button type="submit">Rechercher</button>
+        </form>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Roles</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if results is not empty %}
+                    {% for person in results %}
+                        <tr>
+                            <td>{{ person.id }}</td>
+                            <td>{{ person.firstName }}</td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.email }}</td>
+                            <td>{{ person.phone }}</td>
+                            <td>{{ person.roles | join(', ') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('admin_person_edit', {'id': person.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ path('admin_person_delete', {'id': person.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">Aucun résultat trouvé.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+           {{pagination.display()}}
+        </div>
+    </div>
+{% endblock %}

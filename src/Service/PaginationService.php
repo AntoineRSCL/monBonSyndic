@@ -201,14 +201,13 @@ class PaginationService
             throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer! Utilisez la méthode setEntityClass() de votre objet PaginationService");
         }
 
-        $offset = $this->currentPage * $this->limit - $this->limit;
+        $offset = ($this->currentPage - 1) * $this->limit;
 
         $queryBuilder = $this->manager
             ->getRepository($this->entityClass)
             ->createQueryBuilder('e');
 
         foreach ($this->criteria as $field => $value) {
-            // Vérifier si le critère nécessite une jointure
             if (strpos($field, '.') !== false) {
                 list($relation, $relatedField) = explode('.', $field);
                 $queryBuilder->join("e.$relation", 'r')
@@ -246,27 +245,26 @@ class PaginationService
         if (empty($this->entityClass)) {
             throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer! Utilisez la méthode setEntityClass() de votre objet PaginationService");
         }
-    
+
         $queryBuilder = $this->manager
             ->getRepository($this->entityClass)
             ->createQueryBuilder('e')
             ->select('COUNT(e.id)');
-    
+
         foreach ($this->criteria as $field => $value) {
-            // Vérifier si le critère nécessite une jointure
             if (strpos($field, '.') !== false) {
                 list($relation, $relatedField) = explode('.', $field);
                 $queryBuilder->join("e.$relation", 'r')
-                             ->andWhere("r.$relatedField = :$relatedField")
-                             ->setParameter($relatedField, $value);
+                            ->andWhere("r.$relatedField = :$relatedField")
+                            ->setParameter($relatedField, $value);
             } else {
                 $queryBuilder->andWhere("e.$field = :$field")
-                             ->setParameter($field, $value);
+                            ->setParameter($field, $value);
             }
         }
-    
+
         $total = $queryBuilder->getQuery()->getSingleScalarResult();
-    
+
         return ceil($total / $this->limit);
     }
     

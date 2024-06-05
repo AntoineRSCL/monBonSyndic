@@ -4,18 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Form\PersonType;
+use App\Repository\PersonRepository;
 use App\Service\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminPersonController extends AbstractController
 {
-    /**
-     * Permet d'afficher toutes les personnes qui appartiennent a l'immeuble de l'admin
-     */
     #[Route('/admin/person/{page<\d+>?1}', name: 'admin_person_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -39,13 +37,6 @@ class AdminPersonController extends AbstractController
         ]);
     }
 
-    /**
-     * ¨Permet de rajouter une personne dans l'immeuble de l'admin connecte
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
-     */
     #[Route('admin/person/new', name: 'admin_person_new')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
@@ -71,9 +62,7 @@ class AdminPersonController extends AbstractController
                 "La personne <strong>".$person->getFullName()."</strong> a bien été crée"
             );
 
-            return $this->redirectToRoute('admin_person_index',[
-                
-            ]);
+            return $this->redirectToRoute('admin_person_index');
         }
 
         return $this->render("admin/person/new.html.twig",[
@@ -81,9 +70,6 @@ class AdminPersonController extends AbstractController
         ]);
     }
 
-    /**
-     * Permet de modifier une personne
-     */
     #[Route("/admin/person/{id}/edit", name: "admin_person_edit")]
     public function edit(Person $person, Request $request, EntityManagerInterface $manager): Response
     {
@@ -103,9 +89,7 @@ class AdminPersonController extends AbstractController
 
             $this->addFlash('success',"Les infos de ".$person->getFullName()." a bien été modifié");
 
-            return $this->redirectToRoute('admin_person_index',[
-                    
-            ]);
+            return $this->redirectToRoute('admin_person_index');
         }
 
 
@@ -133,4 +117,41 @@ class AdminPersonController extends AbstractController
 
         return $this->redirectToRoute('admin_person_index');
     }
+
+    #[Route("/admin/person/search/{page<\d+>?1}", name:"admin_person_search")]
+    public function search(Request $request, PaginationService $pagination, PersonRepository $personRepository, int $page): Response
+    {
+        $query = $request->query->get('q');
+
+        if (!$query) {
+            // Gérer le cas où aucun terme de recherche n'est fourni
+            // Par exemple, rediriger vers une page avec un message d'erreur
+            // ou afficher un message d'erreur dans la vue
+            return $this->redirectToRoute('admin_person_index');
+        }
+
+        // Assurez-vous d'appeler setEntityClass() avec l'entité Person
+        $pagination->setEntityClass(Person::class);
+
+        // Utilisez la méthode search du repository pour obtenir les résultats de recherche
+        $results = $query ? $personRepository->search($query) : [];
+
+        // Dump les résultats pour vérification
+        dump($results);
+
+        // Configurez le service de pagination avec les résultats de la recherche
+        $pagination->setPage($page)
+                ->setLimit(9)
+                ->setCriteria(['firstname' => $query]); // Adapté selon votre implémentation
+
+        // Passez également les résultats de la recherche au template
+        // pour l'affichage
+        return $this->render('admin/person/search.html.twig', [
+            'pagination' => $pagination,
+            'results' => $results,
+        ]);
+    }
+
+
 }
+

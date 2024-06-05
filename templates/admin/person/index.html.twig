@@ -9,6 +9,16 @@
             <i class="fa-solid fa-circle-plus"></i>
             <span class="ms-2">Ajouter une personne</span>
         </a>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form method="get" action="{{ path('admin_person_search') }}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="q" value="{{ app.request.query.get('q') }}" placeholder="Rechercher par prénom" aria-label="Rechercher" aria-describedby="button-addon2">
+                        <button class="btn btn-primary" type="submit" id="button-addon2">Rechercher</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <table class="table table-hover">
             <thead>
                 <tr>

@@ -225,9 +225,11 @@ class PaginationService
             }
         }
 
+        // Ajoutez ces lignes pour effectuer la pagination
+        $queryBuilder->setFirstResult($offset)
+                    ->setMaxResults($this->limit);
+
         return $queryBuilder
-            ->setFirstResult($offset)
-            ->setMaxResults($this->limit)
             ->getQuery()
             ->getResult();
     }

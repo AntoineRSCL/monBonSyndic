@@ -3,23 +3,23 @@
 namespace App\Form;
 
 use App\Entity\Building;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class BuildingType extends AbstractType
+class BuildingType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+
         $builder
-            ->add('name', TextType::class, ['label' => 'Nom'])
-            ->add('address', TextType::class, ['label' => 'Adresse'])
-            ->add('number', TextType::class, ['label' => 'Numéro'])
-            ->add('zip', TextType::class, ['label' => 'Code postal'])
-            ->add('locality', TextType::class, ['label' => 'Localité'])
-            ->add('quota', TextType::class, ['label' => 'Quota'])
+            ->add('name', TextType::class, $this->getConfiguration("Nom", "Nom du bâtiment ..."))
+            ->add('address', TextType::class, $this->getConfiguration("Adresse", "Adresse du bâtiment ..."))
+            ->add('number', TextType::class, $this->getConfiguration("Numéro", "Numéro du bâtiment ..."))
+            ->add('zip', TextType::class, $this->getConfiguration("Code postal", "Code postal du bâtiment ..."))
+            ->add('locality', TextType::class, $this->getConfiguration("Localité", "Localité du bâtiment ..."))
+            ->add('quota', TextType::class, $this->getConfiguration("Quota", "Quota du bâtiment ..."))
             ->add('picture', FileType::class, [
                 'label' => 'Photo',
                 'required' => false, // Rendre le champ facultatif

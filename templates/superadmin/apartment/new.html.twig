@@ -1,0 +1,43 @@
+{% extends 'superadmin/base.html.twig' %}
+
+{% block title %}Création d'un bâtiment{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Création d'un bâtiment</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form_start(form) }}
+
+            {# Champ pour la référence de l'appartement #}
+            <div class="form-group">
+                {{ form_label(form.reference, 'Reference') }}
+                {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Champ pour l'étage de l'appartement #}
+            <div class="form-group">
+                {{ form_label(form.floor, 'Etage') }}
+                {{ form_widget(form.floor, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Champ pour le quota 1 de l'appartement #}
+            <div class="form-group">
+                {{ form_label(form.quota1, 'Quota1') }}
+                {{ form_widget(form.quota1, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Champ pour le quota 2 de l'appartement #}
+            <div class="form-group">
+                {{ form_label(form.quota2, 'Quota2') }}
+                {{ form_widget(form.quota2, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

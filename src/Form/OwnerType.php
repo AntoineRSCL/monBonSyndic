@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
-class OwnerType extends AbstractType
+class OwnerType extends ApplicationType
 {
     private $security;
 
@@ -28,24 +28,16 @@ class OwnerType extends AbstractType
         $building = $admin->getBuilding();
 
         $builder
-            ->add('startDate', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date de début',
-                'attr' => ['class' => 'form-control']
-            ])
-            ->add('endDate', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date de fin',
-                'attr' => ['class' => 'form-control']
-            ])
+            ->add('startDate', DateType::class, $this->getConfiguration("Date de début", "Date de début de la location"))
+            ->add('endDate', DateType::class, $this->getConfiguration("Date de fin", "Date de fin de la location"))
             ->add('apartment', EntityType::class, [
                 'class' => Apartment::class,
                 'query_builder' => function (EntityRepository $er) use ($building) {
                     return $er->createQueryBuilder('a')
-                              ->where('a.building = :building')
-                              ->setParameter('building', $building);
+                        ->where('a.building = :building')
+                        ->setParameter('building', $building);
                 },
-                'choice_label' => 'reference', // Assuming 'reference' is a property in Apartment
+                'choice_label' => 'reference',
                 'label' => 'Appartement',
                 'attr' => ['class' => 'form-control']
             ])
@@ -53,8 +45,8 @@ class OwnerType extends AbstractType
                 'class' => Person::class,
                 'query_builder' => function (EntityRepository $er) use ($building) {
                     return $er->createQueryBuilder('p')
-                              ->where('p.building = :building')
-                              ->setParameter('building', $building);
+                        ->where('p.building = :building')
+                        ->setParameter('building', $building);
                 },
                 'choice_label' => function (Person $person) {
                     return $person->getFullName();

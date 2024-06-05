@@ -3,11 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Person;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Building;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @extends ServiceEntityRepository<Person>
@@ -25,11 +26,13 @@ class PersonRepository extends ServiceEntityRepository implements PasswordUpgrad
      * @param string $query Le terme de recherche
      * @return array Les résultats de la recherche
      */
-    public function search(string $query): array
+    public function search(string $query, Building $building): array
     {
         return $this->createQueryBuilder('p')
             ->where('p.firstname LIKE :query OR p.name LIKE :query')
+            ->andWhere('p.building = :building') // Filtrer par bâtiment
             ->setParameter('query', '%'.$query.'%')
+            ->setParameter('building', $building)
             ->getQuery()
             ->getResult();
     }

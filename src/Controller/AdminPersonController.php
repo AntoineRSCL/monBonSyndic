@@ -124,30 +124,17 @@ class AdminPersonController extends AbstractController
         $query = $request->query->get('q');
 
         if (!$query) {
-            // Gérer le cas où aucun terme de recherche n'est fourni
-            // Par exemple, rediriger vers une page avec un message d'erreur
-            // ou afficher un message d'erreur dans la vue
             return $this->redirectToRoute('admin_person_index');
         }
 
-        // Assurez-vous d'appeler setEntityClass() avec l'entité Person
-        $pagination->setEntityClass(Person::class);
+        // Récupérer l'administrateur connecté et son bâtiment
+        $admin = $this->getUser();
+        $building = $admin->getBuilding();
 
         // Utilisez la méthode search du repository pour obtenir les résultats de recherche
-        $results = $query ? $personRepository->search($query) : [];
+        $results = $query ? $personRepository->search($query, $building) : [];
 
-        // Dump les résultats pour vérification
-        dump($results);
-
-        // Configurez le service de pagination avec les résultats de la recherche
-        $pagination->setPage($page)
-                ->setLimit(9)
-                ->setCriteria(['firstname' => $query]); // Adapté selon votre implémentation
-
-        // Passez également les résultats de la recherche au template
-        // pour l'affichage
         return $this->render('admin/person/search.html.twig', [
-            'pagination' => $pagination,
             'results' => $results,
         ]);
     }

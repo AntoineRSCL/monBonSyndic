@@ -3,30 +3,28 @@
 // src/Form/ApartmentType.php
 namespace App\Form;
 
+use App\Entity\Building;
 use App\Entity\Apartment;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-class ApartmentType extends AbstractType
+class ApartmentType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('reference', TextType::class, [
-                'label' => 'Reference', // Changer le label si nécessaire
-            ])
-            ->add('floor', IntegerType::class, [
-                'label' => 'Floor', // Changer le label si nécessaire
-            ])
-            ->add('quota1', IntegerType::class, [
-                'label' => 'Quota 1', // Changer le label si nécessaire
-            ])
-            ->add('quota2', IntegerType::class, [
-                'label' => 'Quota 2', // Changer le label si nécessaire
-            ]);
+            ->add('building', EntityType::class, $this->getConfiguration('Building', 'Choisissez un bâtiment', [
+                'class' => Building::class,
+                'choice_label' => 'name', // Assuming 'name' is the property to display
+            ]))
+            ->add('reference', TextType::class, $this->getConfiguration('Reference', 'Entrez la référence'))
+            ->add('floor', IntegerType::class, $this->getConfiguration('Floor', 'Entrez l\'étage'))
+            ->add('quota1', IntegerType::class, $this->getConfiguration('Quota 1', 'Entrez le quota 1'))
+            ->add('quota2', IntegerType::class, $this->getConfiguration('Quota 2', 'Entrez le quota 2'));
     }
 
     public function configureOptions(OptionsResolver $resolver)

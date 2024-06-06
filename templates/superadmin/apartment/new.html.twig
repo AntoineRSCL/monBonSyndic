@@ -8,6 +8,12 @@
         <form method="post" enctype="multipart/form-data">
             {{ form_start(form) }}
 
+            {# Champ pour le bâtiment de l'appartement #}
+            <div class="form-group">
+                {{ form_label(form.building, 'Building') }}
+                {{ form_widget(form.building, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
             {# Champ pour la référence de l'appartement #}
             <div class="form-group">
                 {{ form_label(form.reference, 'Reference') }}

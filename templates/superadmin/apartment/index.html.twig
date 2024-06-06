@@ -5,6 +5,10 @@
 {% block body %}
     <div class="container-fluid">
         <h1 class="my-2">Administration des appartements</h1>
+        <a href="{{ path('superadmin_apartment_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter un appartement</span>
+        </a>
         <table class="table table-hover">
             <thead>
                 <tr>

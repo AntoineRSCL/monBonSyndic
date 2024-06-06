@@ -31,6 +31,9 @@ class Survey
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'surveys')]
+    private ?Building $building = null;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -103,6 +106,18 @@ class Survey
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getBuilding(): ?Building
+    {
+        return $this->building;
+    }
+
+    public function setBuilding(?Building $building): static
+    {
+        $this->building = $building;
 
         return $this;
     }

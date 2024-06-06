@@ -27,5 +27,6 @@ final class Version20240516130947 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE building');
+        $this->addSql('DROP TABLE apartment');
     }
 }

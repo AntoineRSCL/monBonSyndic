@@ -59,10 +59,17 @@ class Building
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
+    /**
+     * @var Collection<int, Survey>
+     */
+    #[ORM\OneToMany(targetEntity: Survey::class, mappedBy: 'building')]
+    private Collection $surveys;
+
     public function __construct()
     {
         $this->apartments = new ArrayCollection();
         $this->people = new ArrayCollection();
+        $this->surveys = new ArrayCollection();
     }
 
     /**
@@ -238,6 +245,36 @@ class Building
     public function setPicture(string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Survey>
+     */
+    public function getSurveys(): Collection
+    {
+        return $this->surveys;
+    }
+
+    public function addSurvey(Survey $survey): static
+    {
+        if (!$this->surveys->contains($survey)) {
+            $this->surveys->add($survey);
+            $survey->setBuilding($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSurvey(Survey $survey): static
+    {
+        if ($this->surveys->removeElement($survey)) {
+            // set the owning side to null (unless already changed)
+            if ($survey->getBuilding() === $this) {
+                $survey->setBuilding(null);
+            }
+        }
 
         return $this;
     }    

@@ -165,7 +165,10 @@ class AppFixtures extends Fixture
         for($i=1; $i<=5; $i++)
         {
             $survey = new Survey();
-            $survey->setQuestion($faker->word())
+            $building = $buildings[rand(0, count($buildings)-1)];
+
+            $survey->setBuilding($building)
+                ->setQuestion($faker->word())
                 ->setPicture(null)
                 ->setDescription($faker->paragraph(2));
 

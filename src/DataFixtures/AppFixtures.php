@@ -3,8 +3,10 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Vote;
 use App\Entity\Owner;
 use App\Entity\Person;
+use App\Entity\Survey;
 use App\Entity\Building;
 use App\Entity\Apartment;
 use Cocur\Slugify\Slugify;
@@ -29,6 +31,7 @@ class AppFixtures extends Fixture
         $buildings = [];
         $apartments = [];
         $persons = [];
+        $surveys = [];
 
         //création d'un superadmin
         $superadmin = new Person();
@@ -156,6 +159,37 @@ class AppFixtures extends Fixture
                 ->setEndDate($endDate);
 
             $manager->persist($owner);
+        }
+
+        //Creation de sondage
+        for($i=1; $i<=5; $i++)
+        {
+            $survey = new Survey();
+            $survey->setQuestion($faker->word())
+                ->setPicture(null)
+                ->setDescription($faker->paragraph(2));
+
+                
+            $manager->persist($survey);
+            
+            $surveys[] = $survey;
+        }
+
+        //Creation de reponses au sondages
+        for($i=1; $i<=150; $i++)
+        {
+            $vote = new Vote();
+            
+            $person = $persons[rand(0, count($persons)-1)];
+            $survey = $surveys[rand(0, count($surveys)-1)];
+            $answers = ['Pour', 'Contre', 'Abstention'];
+            $answer = $answers[rand(0, count($answers)-1)];
+            $vote->setPerson($person)
+                ->setSurvey($survey)
+                ->setAnswer($answer);
+
+            $manager->persist($vote);
+
         }
 
         $manager->flush();

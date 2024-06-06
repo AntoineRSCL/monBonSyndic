@@ -56,7 +56,7 @@ class Building
     #[ORM\OneToMany(targetEntity: Person::class, mappedBy: 'building')]
     private Collection $people;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
     public function __construct()

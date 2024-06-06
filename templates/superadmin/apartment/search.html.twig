@@ -1,10 +1,10 @@
 {% extends 'superadmin/base.html.twig' %}
 
-{% block title %}Hello AdminPersonController!{% endblock %}
+{% block title %}Résultats de recherche{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
-        <h1 class="my-2">Administration des appartements</h1>
+        <h1 class="my-2">Résultats de recherche</h1>
         <a href="{{ path('superadmin_apartment_new') }}" class="btn btn-secondary my-1 mb-4">
             <i class="fa-solid fa-circle-plus"></i>
             <span class="ms-2">Ajouter un appartement</span>
@@ -25,35 +25,41 @@
                 </form>
             </div>
         </div>
+
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Immeuble</th>
-                    <th>Reference</th>
-                    <th>Etage</th>
+                    <th>Référence</th>
+                    <th>Étage</th>
                     <th>Quota1</th>
                     <th>Quota2</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for apartment in pagination.data %}
+                {% if results is not empty %}
+                    {% for apartment in results %}
+                        <tr>
+                            <td>{{ apartment.id }}</td>
+                            <td>{{ apartment.building.name }}</td>
+                            <td>{{ apartment.reference }}</td>
+                            <td>{{ apartment.floor }}</td>
+                            <td>{{ apartment.quota1 }}</td>
+                            <td>{{ apartment.quota2 }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('superadmin_apartment_edit', {'id': apartment.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ path('superadmin_apartment_delete', {'id': apartment.id}) }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
                     <tr>
-                        <td>{{apartment.id}}</td>
-                        <td>{{apartment.building.name}}</td>
-                        <td>{{apartment.reference}}</td>
-                        <td>{{apartment.floor}}</td>
-                        <td>{{apartment.quota1}}</td>
-                        <td>{{apartment.quota2}}</td>
-                        <td class="text-center">
-                            <a href="{{path("superadmin_apartment_edit",{"id":apartment.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <a href="{{path("superadmin_apartment_delete",{"id":apartment.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                        </td>
+                        <td colspan="7" class="text-center">Aucun résultat trouvé.</td>
                     </tr>
-                {% endfor %}
+                {% endif %}
             </tbody>
         </table>
-        {{pagination.display()}}
     </div>
 {% endblock %}

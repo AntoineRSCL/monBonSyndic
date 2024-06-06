@@ -118,8 +118,8 @@ class AdminPersonController extends AbstractController
         return $this->redirectToRoute('admin_person_index');
     }
 
-    #[Route("/admin/person/search/{page<\d+>?1}", name:"admin_person_search")]
-    public function search(Request $request, PaginationService $pagination, PersonRepository $personRepository, int $page): Response
+    #[Route("/admin/person/search", name:"admin_person_search")]
+    public function search(Request $request, PersonRepository $personRepository): Response
     {
         $query = $request->query->get('q');
 

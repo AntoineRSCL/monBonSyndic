@@ -16,6 +16,23 @@ class ApartmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Apartment::class);
     }
 
+    public function search(?string $query, ?int $buildingId): array 
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        if ($query) {
+            $qb->andWhere('a.reference LIKE :query')
+               ->setParameter('query', '%'.$query.'%');
+        }
+
+        if ($buildingId !== null && $buildingId !== '') {
+            $qb->andWhere('a.building = :buildingId')
+               ->setParameter('buildingId', $buildingId);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Apartment[] Returns an array of Apartment objects
 //     */

@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SuperadminBuildingController extends AbstractController
 {
+    /**
+     * Fonction pour afficher tous les immeuble
+     */
     #[Route('superadmin/building/{page<\d+>?1}', name: 'superadmin_building_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -27,6 +30,13 @@ class SuperadminBuildingController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour ajouter un immeuble
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('superadmin/building/new', name: 'superadmin_building_new')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
@@ -74,6 +84,9 @@ class SuperadminBuildingController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour editer un immebule
+     */
     #[Route('superadmin/building/{id}/edit', name: 'superadmin_building_edit')]
     public function edit(Building $building, Request $request, EntityManagerInterface $manager): Response
     {
@@ -128,6 +141,9 @@ class SuperadminBuildingController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un immeuble
+     */
     #[Route('superadmin/building/{id}/delete', name: 'superadmin_building_delete')]
     public function delete(Building $building, EntityManagerInterface $manager): Response
     {

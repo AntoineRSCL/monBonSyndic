@@ -9,6 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminDashboardController extends AbstractController
 {
+    /**
+     * Fonction pour afficher le dashboard une fois connecte
+     *
+     * @param StatsService $statsService
+     * @return Response
+     */
     #[Route('/admin', name: 'admin_dashboard')]
     public function index(StatsService $statsService): Response
     {

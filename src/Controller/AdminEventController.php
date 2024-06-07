@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminEventController extends AbstractController
 {
+    /**
+     * Fonction pour afficher tous les evenements
+     */
     #[Route('/admin/event/{page<\d+>?1}', name: 'admin_event_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -37,6 +40,13 @@ class AdminEventController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour rajouter un eveneement
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/event/new', name: 'admin_event_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -85,6 +95,9 @@ class AdminEventController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour editer un evenement
+     */
     #[Route('/admin/event/{id}/edit', name: 'admin_event_edit')]
     public function edit(Event $event, Request $request, EntityManagerInterface $manager): Response
     {
@@ -141,6 +154,9 @@ class AdminEventController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un evenement
+     */
     #[Route('/admin/event/{id}/delete', name: 'admin_event_delete')]
     public function delete(Event $event, EntityManagerInterface $manager, Request $request): Response
     {

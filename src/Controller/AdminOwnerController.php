@@ -13,6 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminOwnerController extends AbstractController
 {
+    /**
+     * Fonction pour afficher tous les proprietaires
+     */
     #[Route('/admin/owner/{page<\d+>?1}', name: 'admin_owner_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -35,6 +38,13 @@ class AdminOwnerController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour ajouter un proprietaire
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('admin/owner/new', name: 'admin_owner_new')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
@@ -68,6 +78,9 @@ class AdminOwnerController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour editer un proprietaire
+     */
     #[Route('admin/owner/edit/{id}', name: 'admin_owner_edit')]
     public function edit(Owner $owner, Request $request, EntityManagerInterface $manager): Response
     {
@@ -91,6 +104,9 @@ class AdminOwnerController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un proprietaire
+     */
     #[Route('admin/owner/delete/{id}', name: 'admin_owner_delete')]
     public function delete(Owner $owner, EntityManagerInterface $manager): Response
     {

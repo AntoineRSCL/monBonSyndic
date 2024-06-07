@@ -15,6 +15,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SuperadminApartmentController extends AbstractController
 {
+    /**
+     * Fonction pour voir tous les appartements
+     */
     #[Route('superadmin/apartment/{page<\d+>?1}', name: 'superadmin_apartment_index')]
     public function index(PaginationService $pagination, int $page, BuildingRepository $buildingRepository): Response
     {
@@ -33,6 +36,14 @@ class SuperadminApartmentController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour ajouter un appartement
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param BuildingRepository $buildingRepository
+     * @return Response
+     */
     #[Route('/superadmin/apartment/new', name: 'superadmin_apartment_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, BuildingRepository $buildingRepository): Response
     {
@@ -54,6 +65,9 @@ class SuperadminApartmentController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour editer un apart
+     */
     #[Route('/superadmin/apartment/{id}/edit', name: 'superadmin_apartment_edit')]
     public function edit(Apartment $apartment, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -73,6 +87,9 @@ class SuperadminApartmentController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un appart
+     */
     #[Route('/superadmin/apartment/{id}/delete', name: 'superadmin_apartment_delete')]
     public function delete(Apartment $apartment, EntityManagerInterface $entityManager): Response
     {
@@ -84,6 +101,14 @@ class SuperadminApartmentController extends AbstractController
         return $this->redirectToRoute('superadmin_apartment_index');
     }
 
+    /**
+     * Fonction pour recherche un apart en fonction du nom ou du batiment
+     *
+     * @param Request $request
+     * @param ApartmentRepository $apartmentRepository
+     * @param BuildingRepository $buildingRepository
+     * @return Response
+     */
     #[Route('/superadmin/apartment/search', name: 'superadmin_apartment_search')]
     public function search(Request $request, ApartmentRepository $apartmentRepository, BuildingRepository $buildingRepository): Response
     {

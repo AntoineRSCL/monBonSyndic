@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AdminSurveyController extends AbstractController
 {
+    /**
+     * Fonction pour afficher tous les sondages de son bat
+     */
     #[Route('/admin/survey/{page<\d+>?1}', name: 'admin_survey_index')]
     public function index(PaginationService $pagination, VoteRepository $voteRepository, int $page): Response
     {
@@ -73,6 +76,13 @@ class AdminSurveyController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour ajouter un sondage a son bat
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/survey/new', name: 'admin_survey_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -119,6 +129,9 @@ class AdminSurveyController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour editer un sondage de son bat
+     */
     #[Route('/admin/survey/{id}/edit', name: 'admin_survey_edit')]
     public function edit(Survey $survey, Request $request, EntityManagerInterface $manager): Response
     {
@@ -173,6 +186,9 @@ class AdminSurveyController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour suppr un sondage de son bat
+     */
     #[Route('/admin/survey/{id}/delete', name: 'admin_survey_delete')]
     public function delete(Survey $survey, EntityManagerInterface $manager, Request $request): Response
     {

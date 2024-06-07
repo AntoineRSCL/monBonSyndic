@@ -9,6 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SuperadminDashboardController extends AbstractController
 {
+    /**
+     * Fonction pour afficher le dashboard avec des stats
+     *
+     * @param StatsService $statsService
+     * @return Response
+     */
     #[Route('/superadmin', name: 'superadmin_dashboard')]
     public function index(StatsService $statsService): Response
     {

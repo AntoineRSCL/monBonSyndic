@@ -14,6 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminPersonController extends AbstractController
 {
+    /**
+     * Sert a afficher toutes les personnes
+     */
     #[Route('/admin/person/{page<\d+>?1}', name: 'admin_person_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -37,6 +40,13 @@ class AdminPersonController extends AbstractController
         ]);
     }
 
+    /**
+     * SErt a ajouter une nouvelle personne
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('admin/person/new', name: 'admin_person_new')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
@@ -70,6 +80,9 @@ class AdminPersonController extends AbstractController
         ]);
     }
 
+    /**
+     * Sert a editer une personne de son batiment
+     */
     #[Route("/admin/person/{id}/edit", name: "admin_person_edit")]
     public function edit(Person $person, Request $request, EntityManagerInterface $manager): Response
     {
@@ -99,6 +112,9 @@ class AdminPersonController extends AbstractController
         ]);
     }
 
+    /**
+     * Sert a supprimer une personne de son batiment
+     */
     #[Route("/admin/person/{id}/delete", name:"admin_person_delete")]
     public function delete(Person $person, EntityManagerInterface $manager): Response
     {
@@ -118,6 +134,13 @@ class AdminPersonController extends AbstractController
         return $this->redirectToRoute('admin_person_index');
     }
 
+    /**
+     * Fonction pour recherche une personne en fonction nom et prenom
+     *
+     * @param Request $request
+     * @param PersonRepository $personRepository
+     * @return Response
+     */
     #[Route("/admin/person/search", name:"admin_person_search")]
     public function search(Request $request, PersonRepository $personRepository): Response
     {

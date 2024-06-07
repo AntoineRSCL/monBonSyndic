@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminNewsController extends AbstractController
 {
+    /**
+     * Fonction pour afficher toutes les news
+     */
     #[Route('/admin/news/{page<\d+>?1}', name: 'admin_news_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -37,6 +40,13 @@ class AdminNewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour ajouter une nouvelle
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/news/new', name: 'admin_news_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -86,6 +96,9 @@ class AdminNewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour editer une nouvelle
+     */
     #[Route('/admin/news/{id}/edit', name: 'admin_news_edit')]
     public function edit(News $news, Request $request, EntityManagerInterface $manager): Response
     {
@@ -142,6 +155,9 @@ class AdminNewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer une nouvelle
+     */
     #[Route('/admin/news/{id}/delete', name: 'admin_news_delete')]
     public function delete(News $news, EntityManagerInterface $manager, Request $request): Response
     {

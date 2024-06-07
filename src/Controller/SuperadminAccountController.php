@@ -10,6 +10,12 @@ use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthentication
 
 class SuperadminAccountController extends AbstractController
 {
+    /**
+     * Fonction pour se connecter a la superadmin
+     *
+     * @param AuthenticationUtils $utils
+     * @return Response
+     */
     #[Route('/superadmin/login', name: 'superadmin_account_login')]
     public function index(AuthenticationUtils $utils): Response
     {

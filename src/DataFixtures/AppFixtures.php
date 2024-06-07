@@ -224,6 +224,8 @@ class AppFixtures extends Fixture
                 ->setPicture('')
                 ->setDate($faker->dateTime())
                 ->setDuration($faker->randomDigitNotNull()." heures");
+
+            $manager->persist($event);
         }
 
         $manager->flush();

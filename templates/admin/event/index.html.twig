@@ -1,0 +1,44 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello AdminPersonController!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Administration des évenements</h1>
+        <a href="{{ path('admin_event_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter un évenement</span>
+        </a>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Date</th>
+                    <th>Durée</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# Afficher la liste normale des personnes ici #}
+                {% for event in pagination.data %}
+                    <tr>
+                        <td>{{event.id}}</td>
+                        <td>{{event.title}}</td>
+                        <td>{{event.description|length > 50 ? event.description|slice(0, 50) ~ '...' : event.description}}</td>
+                        <td>{{event.picture}}</td>
+                        <td>{{event.date|date('d-m-Y')}}</td>
+                        <td>{{event.duration}}</td>
+                        <td class="text-center">
+                            <a href="{{path("admin_event_edit",{"id":event.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="{{path("admin_event_delete",{"id":event.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{pagination.display()}}
+    </div>
+{% endblock %}

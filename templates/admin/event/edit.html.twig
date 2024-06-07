@@ -1,0 +1,62 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Modifier un évenement{% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-2">Modifier un evenement</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form_start(form) }}
+
+            {# Champ titre #}
+            <div class="form-group">
+                {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+
+            {# Champ description #}
+            <div class="form-group">
+                {{ form_label(form.description, 'Description', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            {# Champ image #}
+            <div class="form-group">
+                {{ form_label(form.picture, 'Image', {'label_attr': {'class': 'control-label'}}) }}
+                {% if event.picture %}
+                    <div>
+                        <img src="/uploads/pictures/{{ event.picture }}" alt="Image de {{ event.title }}" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                    </div>
+                {% endif %}
+                {{ form_widget(form.picture, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.picture) }}
+            </div>
+
+            {# Champ date #}
+            <div class="form-group">
+                {{ form_label(form.date, 'Date', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.date) }}
+            </div>
+
+            {# Champ durée #}
+            <div class="form-group">
+                {{ form_label(form.duration, 'Durée', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.duration, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.duration) }}
+            </div>
+            
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

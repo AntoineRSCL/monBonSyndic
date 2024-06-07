@@ -3,9 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Building;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class BuildingType extends ApplicationType
 {

@@ -94,6 +94,12 @@ class AdminOwnerController extends AbstractController
     #[Route('admin/owner/delete/{id}', name: 'admin_owner_delete')]
     public function delete(Owner $owner, EntityManagerInterface $manager): Response
     {
+        $admin = $this->getUser();
+        if ($admin->getBuilding()->getId() !== $owner->getApartment()->getBuilding()->getId()) {
+            // Redirigez vers une page d'erreur ou effectuez toute autre action appropriée
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer ce propriétaire.');
+        }
+
         $manager->remove($owner);
         $manager->flush();
 

@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use App\Form\ApplicationType;
 
 class OwnerType extends ApplicationType
 {
@@ -28,8 +29,12 @@ class OwnerType extends ApplicationType
         $building = $admin->getBuilding();
 
         $builder
-            ->add('startDate', DateType::class, $this->getConfiguration("Date de début", "Date de début de la location"))
-            ->add('endDate', DateType::class, $this->getConfiguration("Date de fin", "Date de fin de la location"))
+            ->add('startDate', DateType::class, $this->getConfiguration("Date de début", "Date de début de la location",[
+                "widget" => "single_text"
+            ]))
+            ->add('endDate', DateType::class, $this->getConfiguration("Date de fin", "Date de fin de la location",[
+                "widget" => "single_text"
+            ]))
             ->add('apartment', EntityType::class, [
                 'class' => Apartment::class,
                 'query_builder' => function (EntityRepository $er) use ($building) {

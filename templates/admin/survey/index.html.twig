@@ -5,6 +5,10 @@
 {% block body %}
     <div class="container-fluid">
         <h1 class="my-2">Administration des sondages</h1>
+        <a href="{{ path('admin_survey_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter un sondage</span>
+        </a>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -12,6 +16,9 @@
                     <th>Question</th>
                     <th>Picture</th>
                     <th>Description</th>
+                    <th>Pour</th>
+                    <th>Contre</th>
+                    <th>Abstention</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
@@ -21,13 +28,22 @@
                         <td colspan="5" class="text-center">Aucun résultat</td>
                     </tr>
                 {% else %}
-                    {# Afficher la liste normale des personnes ici #}
+                    {# Afficher la liste normale des sondages ici #}
                     {% for survey in pagination.data %}
                         <tr>
                             <td>{{ survey.id }}</td>
                             <td>{{ survey.question }}</td>
                             <td>{{ survey.picture }}</td>
-                            <td>{{ survey.description }}</td>
+                            <td>
+                                {{ survey.description|length > 50 ? survey.description|slice(0, 50) ~ '...' : survey.description }}
+                            </td>
+                            <td>{{ survey.votePercentages.Pour }}%</td>
+                            <td>{{ survey.votePercentages.Contre }}%</td>
+                            <td>{{ survey.votePercentages.Abstention }}%</td>
+                            <td class="text-center">
+                                <a href="{{path("admin_survey_edit",{"id":survey.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{path("admin_survey_delete",{"id":survey.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% endif %}

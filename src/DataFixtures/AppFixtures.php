@@ -3,7 +3,9 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\News;
 use App\Entity\Vote;
+use App\Entity\Event;
 use App\Entity\Owner;
 use App\Entity\Person;
 use App\Entity\Survey;
@@ -193,6 +195,35 @@ class AppFixtures extends Fixture
 
             $manager->persist($vote);
 
+        }
+
+        //Creation News
+        for($i=1; $i<=20; $i++)
+        {
+            $news = new News();
+            $building = $buildings[rand(0, count($buildings)-1)];
+
+            $news->setBuilding($building)
+                ->setTitle($faker->sentence(3))
+                ->setContent($faker->sentence(150))
+                ->setPicture('')
+                ->setDate($faker->dateTime());
+
+            $manager->persist($news);
+        }
+
+        //Creation Events
+        for($i=1; $i<=20; $i++)
+        {
+            $event = new Event();
+            $building = $buildings[rand(0, count($buildings)-1)];
+
+            $event->setBuilding($building)
+                ->setTitle($faker->sentence(3))
+                ->setDescription($faker->sentence(150))
+                ->setPicture('')
+                ->setDate($faker->dateTime())
+                ->setDuration($faker->randomDigitNotNull()." heures");
         }
 
         $manager->flush();

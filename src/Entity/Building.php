@@ -65,11 +65,25 @@ class Building
     #[ORM\OneToMany(targetEntity: Survey::class, mappedBy: 'building')]
     private Collection $surveys;
 
+    /**
+     * @var Collection<int, News>
+     */
+    #[ORM\OneToMany(targetEntity: News::class, mappedBy: 'building', orphanRemoval: true)]
+    private Collection $news;
+
+    /**
+     * @var Collection<int, Event>
+     */
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'building', orphanRemoval: true)]
+    private Collection $events;
+
     public function __construct()
     {
         $this->apartments = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->surveys = new ArrayCollection();
+        $this->news = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     /**
@@ -273,6 +287,66 @@ class Building
             // set the owning side to null (unless already changed)
             if ($survey->getBuilding() === $this) {
                 $survey->setBuilding(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, News>
+     */
+    public function getNews(): Collection
+    {
+        return $this->news;
+    }
+
+    public function addNews(News $news): static
+    {
+        if (!$this->news->contains($news)) {
+            $this->news->add($news);
+            $news->setBuilding($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNews(News $news): static
+    {
+        if ($this->news->removeElement($news)) {
+            // set the owning side to null (unless already changed)
+            if ($news->getBuilding() === $this) {
+                $news->setBuilding(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setBuilding($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getBuilding() === $this) {
+                $event->setBuilding(null);
             }
         }
 

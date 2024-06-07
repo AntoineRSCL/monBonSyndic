@@ -1,0 +1,47 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Modifier une nouvelle{% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-2">Modifier une nouvelle</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form_start(form) }}
+
+            {# Champ titre #}
+            <div class="form-group">
+                {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+
+            {# Champ contenu #}
+            <div class="form-group">
+                {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.content) }}
+            </div>
+
+            {# Champ image #}
+            <div class="form-group">
+                {{ form_label(form.picture, 'Image', {'label_attr': {'class': 'control-label'}}) }}
+                {% if news.picture %}
+                    <div>
+                        <img src="/uploads/pictures/{{ news.picture }}" alt="Image de {{ news.title }}" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                    </div>
+                {% endif %}
+                {{ form_widget(form.picture, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.picture) }}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

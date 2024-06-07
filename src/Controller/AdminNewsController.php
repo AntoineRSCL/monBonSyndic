@@ -2,22 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Survey;
-use App\Form\SurveyType;
+use App\Entity\News;
+use App\Form\NewsType;
 use Cocur\Slugify\Slugify;
-use App\Repository\VoteRepository;
 use App\Service\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class AdminSurveyController extends AbstractController
+class AdminNewsController extends AbstractController
 {
-    #[Route('/admin/survey/{page<\d+>?1}', name: 'admin_survey_index')]
-    public function index(PaginationService $pagination, VoteRepository $voteRepository, int $page): Response
+    #[Route('/admin/news/{page<\d+>?1}', name: 'admin_news_index')]
+    public function index(PaginationService $pagination, int $page): Response
     {
         // Récupérer l'utilisateur actuellement connecté
         $admin = $this->getUser();
@@ -29,62 +27,29 @@ class AdminSurveyController extends AbstractController
         $criteria = ['building' => $building];
 
         // Configurer le service de pagination
-        $pagination->setEntityClass(Survey::class)
+        $pagination->setEntityClass(News::class)
                    ->setPage($page)
                    ->setLimit(9)
                    ->setCriteria($criteria); // Utiliser setCriteria pour filtrer par bâtiment
 
-
-        $surveys = $pagination->getData();
-        // Calculer les pourcentages de vote pour chaque sondage
-        foreach ($surveys as $survey) {
-            $votes = $voteRepository->findBy(['survey' => $survey]);
-            $totalVotes = count($votes);
-
-            if ($totalVotes > 0) {
-                $voteCounts = [
-                    'Pour' => 0,
-                    'Contre' => 0,
-                    'Abstention' => 0
-                ];
-
-                foreach ($votes as $vote) {
-                    if (isset($voteCounts[$vote->getAnswer()])) {
-                        $voteCounts[$vote->getAnswer()]++;
-                    }
-                }
-
-                $survey->votePercentages = [
-                    'Pour' => round(($voteCounts['Pour'] / $totalVotes) * 100, 2),
-                    'Contre' => round(($voteCounts['Contre'] / $totalVotes) * 100, 2),
-                    'Abstention' => round(($voteCounts['Abstention'] / $totalVotes) * 100, 2),
-                ];
-            } else {
-                $survey->votePercentages = [
-                    'Pour' => 0,
-                    'Contre' => 0,
-                    'Abstention' => 0,
-                ];
-            }
-        }
-
-        return $this->render('admin/survey/index.html.twig', [
+        return $this->render('admin/news/index.html.twig', [
             'pagination' => $pagination,
         ]);
     }
 
-    #[Route('/admin/survey/new', name: 'admin_survey_new')]
+    #[Route('/admin/news/new', name: 'admin_news_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
-        $survey = new Survey();
-        $form = $this->createForm(SurveyType::class, $survey);
+        $news = new News();
+        $form = $this->createForm(NewsType::class, $news);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             $admin = $this->getUser();
             $building = $admin->getBuilding();
-            $survey->setBuilding($building);
+            $news->setBuilding($building)
+                ->setDate(new \DateTime());
 
             // Handle file upload
             $pictureFile = $form->get('picture')->getData();
@@ -105,29 +70,32 @@ class AdminSurveyController extends AbstractController
                 }
 
                 // Update the 'picture' property to store the file name instead of its contents
-                $survey->setPicture($newFilename);
+                $news->setPicture($newFilename);
             }
-            $manager->persist($survey);
+
+            $manager->persist($news);
             $manager->flush();
 
-            $this->addFlash('success', 'Le sondage '.$survey->getId().' a été créée avec succès.');
-            return $this->redirectToRoute('admin_survey_index');
+            $this->addFlash('success', 'La nouvelle '.$news->getId().' a été créée avec succès.');
+
+            return $this->redirectToRoute('admin_news_index');
         }
 
-        return $this->render('admin/survey/new.html.twig', [
+        return $this->render('admin/news/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/admin/survey/{id}/edit', name: 'admin_survey_edit')]
-    public function edit(Survey $survey, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/admin/news/{id}/edit', name: 'admin_news_edit')]
+    public function edit(News $news, Request $request, EntityManagerInterface $manager): Response
     {
         $admin = $this->getUser();
-        if ($admin->getBuilding()->getId() !== $survey->getBuilding()->getId()) {
+        if ($admin->getBuilding()->getId() !== $news->getBuilding()->getId()) {
             // Redirigez vers une page d'erreur ou effectuez toute autre action appropriée
-            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer ce sondage.');
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer cette nouvelle.');
         }
-        $form = $this->createForm(SurveyType::class, $survey);
+
+        $form = $this->createForm(NewsType::class, $news);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -135,7 +103,7 @@ class AdminSurveyController extends AbstractController
             $pictureFile = $form->get('picture')->getData();
             if ($pictureFile) {
                 // Supprimer l'ancienne image s'il en existe une
-                $oldPicture = $survey->getPicture();
+                $oldPicture = $news->getPicture();
                 if ($oldPicture) {
                     $oldPicturePath = $this->getParameter('pictures_directory').'/'.$oldPicture;
                     if (file_exists($oldPicturePath)) {
@@ -159,27 +127,28 @@ class AdminSurveyController extends AbstractController
                 }
 
                 // Update the 'picture' property to store the file name instead of its contents
-                $survey->setPicture($newFilename);
+                $news->setPicture($newFilename);
             }
+
             $manager->flush();
 
-            $this->addFlash('success', 'Le sondage '.$survey->getId().' a été modifiée avec succès.');
-            return $this->redirectToRoute('admin_survey_index');
+            $this->addFlash('success', 'La nouvelle '.$news->getId().' a été modifiée avec succès.');
+            return $this->redirectToRoute('admin_news_index');
         }
 
-        return $this->render('admin/survey/edit.html.twig', [
+        return $this->render('admin/news/edit.html.twig', [
             'form' => $form->createView(),
-            'survey' => $survey,
+            'news' => $news,
         ]);
     }
 
-    #[Route('/admin/survey/{id}/delete', name: 'admin_survey_delete')]
-    public function delete(Survey $survey, EntityManagerInterface $manager, Request $request): Response
+    #[Route('/admin/news/{id}/delete', name: 'admin_news_delete')]
+    public function delete(News $news, EntityManagerInterface $manager, Request $request): Response
     {
         $admin = $this->getUser();
-        if ($admin->getBuilding()->getId() !== $survey->getBuilding()->getId()) {
+        if ($admin->getBuilding()->getId() !== $news->getBuilding()->getId()) {
             // Redirigez vers une page d'erreur ou effectuez toute autre action appropriée
-            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer ce sondage.');
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer cette nouvelle.');
         }
 
         // Supprimer l'image associée s'il en existe une
@@ -193,11 +162,11 @@ class AdminSurveyController extends AbstractController
 
         $this->addFlash(
             'success',
-            'Le sondage n°<strong>'.$survey->getId().'</strong> a bien été supprimée'
+            'La nouvelle n°<strong>'.$news->getId().'</strong> a bien été supprimée'
         );
-        $manager->remove($survey);
+        $manager->remove($news);
         $manager->flush();
 
-        return $this->redirectToRoute('admin_survey_index');
+        return $this->redirectToRoute('admin_news_index');
     }
 }

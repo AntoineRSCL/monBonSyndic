@@ -1,0 +1,246 @@
+@import '../variables/variable.scss';
+header{
+    width: 100%;
+    height: 100px;
+    @include flex(row);
+    font-family: $roboto;
+    box-sizing: border-box;
+
+    &::before{
+        position: absolute;
+        content: "";
+        width: 35%;
+        height: 100px;
+        background-color: $yellow;
+        right: 0;
+        top: 0;
+        clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+        -webkit-clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+        z-index: -1;
+        @media all and (max-width:700px) {
+            width: 45%;
+        }
+        @media all and (max-width:500px) {
+            display: none;
+        }
+    }
+
+    .containerHeader{
+        width: 100%;
+        max-width: 1200px;
+        height: 100%;
+        @include flex(row);
+        justify-content: space-between;
+        @media all and (max-width:1250px) {
+            max-width: 900px;
+        }
+        @media all and (max-width:925px) {
+            max-width: 700px;
+        }
+        @media all and (max-width:700px) {
+            max-width: 500px;
+        }
+
+        .logoName{
+            width: 400px;
+            height: 100%;
+            @media all and (max-width:925px) {
+                width: 300px;
+            }
+            @media all and (max-width:400px) { 
+                width: 200px;
+                padding: 10px;
+            }
+            @include flex(row);
+            gap: 10px;
+            .logoHeader{
+                width: 100px;
+                height: 100px;
+                img{
+                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .nameHeader{
+                width: 350px;
+                height: 100%;
+                @media all and (max-width:925px) {
+                    width: 200px;
+                }
+                @media all and (max-width:425px) { 
+                    width: 150px;
+                }
+                @include flex(row);
+                justify-content: start;
+
+                h2{
+                    font-size: 24px;
+                    color: $blueHard;
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+        .navHeader{
+            width: 400px;
+            height: 100%;
+            @include flex(row);
+            margin: 0;
+            padding: 0;
+            justify-content: space-between;
+            li{
+                list-style: none;
+                a{
+                    color: $blueHard;
+                    text-decoration: none;
+                }
+            }
+            @media all and (max-width:1250px) {
+                display: none;
+            }
+        }
+        .userLogin{
+            width: 400px;
+            height: 100%;
+            @include flex(row);
+            justify-content: end; 
+            @media all and (max-width:925px) {
+                width: 300px;
+            }
+            @media all and (max-width:700px) {
+                display: none
+            }
+            .containerUserLogin, #listeUser{
+                width: 150px;
+                height: 50px;
+                background-color: $blueHard;
+                @include flex(row);
+                gap: 10px;
+                padding: 2px;
+                color: $yellow;
+                svg{
+                    width: 25px;
+                    height: 25px;
+                    fill: $yellow;
+                }
+                a{
+                    text-decoration: none;
+                    color: $yellow;
+                }
+                
+            }
+        }
+        .containerBurger{
+            @include flex(row);
+            display: none;
+            #nav-icon1 {
+                display: none;
+                width: 60px;
+                height: 45px;
+                position: relative;
+                margin: 50px auto;
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+                -webkit-transition: .5s ease-in-out;
+                -moz-transition: .5s ease-in-out;
+                -o-transition: .5s ease-in-out;
+                transition: .5s ease-in-out;
+                cursor: pointer;
+
+                span {
+                    display: block;
+                    position: absolute;
+                    height: 9px;
+                    width: 50%;
+                    background: $blueHard;
+                    opacity: 1;
+                    -webkit-transform: rotate(0deg);
+                    -moz-transform: rotate(0deg);
+                    -o-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                    -webkit-transition: .25s ease-in-out;
+                    -moz-transition: .25s ease-in-out;
+                    -o-transition: .25s ease-in-out;
+                    transition: .25s ease-in-out;
+                
+                    &:nth-child(even) {
+                        left: 50%;
+                        border-radius: 0 9px 9px 0;
+                    }
+                
+                    &:nth-child(odd) {
+                        left: 0;
+                        border-radius: 9px 0 0 9px;
+                    }
+                
+                    &:nth-child(1),
+                    &:nth-child(2) {
+                        top: 0;
+                    }
+                
+                    &:nth-child(3),
+                    &:nth-child(4) {
+                        top: 18px;
+                    }
+                
+                    &:nth-child(5),
+                    &:nth-child(6) {
+                        top: 36px;
+                    }
+                }
+                &.open {
+                    span {
+                        &:nth-child(1),
+                        &:nth-child(6) {
+                        transform: rotate(45deg);
+                        left: 5px;
+                        top: 7px;
+                        }
+                
+                        &:nth-child(2),
+                        &:nth-child(5) {
+                        transform: rotate(-45deg);
+                        left: calc(50% - 5px);
+                        top: 7px;
+                        }
+                
+                        &:nth-child(3) {
+                        left: -50%;
+                        opacity: 0;
+                        }
+                
+                        &:nth-child(4) {
+                        left: 100%;
+                        opacity: 0;
+                        }
+                
+                        &:nth-child(5) {
+                        left: 5px;
+                        top: 29px;
+                        }
+                
+                        &:nth-child(6) {
+                        left: calc(50% - 5px);
+                        top: 29px;
+                        }
+                    }
+                } 
+            }
+
+            @media all and (max-width:1250px) {
+                display: block;
+                @media all and (max-width:500px) {
+                    width: 200px;
+                }
+                
+                #nav-icon1 {
+                    display: block;
+                }
+            }
+        }
+
+    }
+}

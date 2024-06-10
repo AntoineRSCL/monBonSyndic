@@ -8,5 +8,10 @@ import './bootstrap.js';
 import './styles/app.css';
 import './styles/bootstrap.min.css';
 import './styles/pages/home.scss';
+import './styles/partials/header.scss';
+
+import './js/burger.js'
+
+import 'bootstrap/dist/js/bootstrap.bundle';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');

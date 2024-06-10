@@ -128,6 +128,7 @@ class AppFixtures extends Fixture
                 ->setCountry("Belgique")
                 ->setOptin($faker->boolean())
                 ->setBuilding($buildings[rand(0, count($buildings)-1)])
+                ->setPassword($this->passwordHasher->hashPassword($person, 'password'))
                 ->setRoles(["ROLE_USER"]);
 
             $manager->persist($person);

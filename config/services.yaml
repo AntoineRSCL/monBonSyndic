@@ -26,3 +26,7 @@ services:
     App\Service\PaginationService:
         arguments:
             $templatePath: 'partials/_pagination.html.twig'
+    App\Security\LoginSuccessHandler:
+        arguments:
+            $router: '@router'
+            $security: '@security.helper'

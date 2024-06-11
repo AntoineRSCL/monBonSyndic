@@ -81,7 +81,8 @@
                 @include flex(row);
                 justify-content: start;
 
-                h2{
+                a{
+                    text-decoration: none;
                     font-size: 24px;
                     color: $blueHard;
                     margin: 0;
@@ -95,7 +96,8 @@
             @include flex(row);
             margin: 0;
             padding: 0;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 40px;
             li{
                 list-style: none;
                 a{

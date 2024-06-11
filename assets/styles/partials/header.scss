@@ -1,10 +1,15 @@
 @import '../variables/variable.scss';
-header{
+.header{
     width: 100%;
     height: 100px;
     @include flex(row);
     font-family: $roboto;
     box-sizing: border-box;
+    position: fixed; // changé de static à fixed
+    top: 0; // ajouter pour fixer en haut de la page
+    left: 0; // ajouter pour fixer sur le côté gauche
+    z-index: 1000; // assurez-vous que le header est au-dessus d'autres éléments
+    background-color: $white;
 
     &::before{
         position: absolute;
@@ -26,9 +31,11 @@ header{
     }
 
     .containerHeader{
+        position: fixed;
         width: 100%;
         max-width: 1200px;
-        height: 100%;
+        height: 100px;
+        z-index: 1001;
         @include flex(row);
         justify-content: space-between;
         @media all and (max-width:1250px) {
@@ -242,5 +249,109 @@ header{
             }
         }
 
+    }
+}
+
+.menuBurger{
+    width: 65%;
+    min-height: 100vh;
+    @include flex(row);
+    align-items: start;
+    position: fixed;
+    top: 100px;
+    left: -100%;
+    z-index: 100;
+    transition: all 0.5s;
+    font-family: $roboto;
+    background-color: $yellow;
+    @media all and (max-width:700px) {
+        width: 55%;
+    }
+    @media all and (max-width:500px) {
+        width: 100%;
+    }
+    &.open{
+        left: -0%;
+    }
+
+    .containerMenuBurger{
+        width: 80%;
+        min-height: 0vh;
+        padding: 10px;
+        @include flex(column);
+        align-items: start;
+        color: $blueHard;
+        .userLogin{
+            width: 100%;
+            height: 200px;
+            @include flex(row);
+            justify-content: start;
+            .containerUserLogin, #listeUser{
+                width: 250px;
+                height: 50px;
+                background-color: $blueHard;
+                @include flex(row);
+                gap: 10px;
+                padding: 2px;
+                color: $yellow;
+                svg{
+                    width: 25px;
+                    height: 25px;
+                    fill: $yellow;
+                }
+                a{
+                    text-decoration: none;
+                    color: $yellow;
+                }
+            }
+        } 
+        .ulPrincipal{
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            @include flex(column);
+            justify-content: start;
+            align-items: start;
+            gap: 10px;
+            li{
+                list-style: none;
+                width: 100%;
+                @include flex(row);
+                justify-content: start;
+                gap: 15px;
+                a{
+                    text-decoration: none;
+                    color: $blueHard;
+                    font-size: 18px;
+                }
+                svg{
+                    width: 20px;
+                    height: 20px;
+                    fill: $blueHard;
+                }
+            }
+            
+            span{
+                color: $black;
+                font-size: 18px;
+            }
+            .sousUl{
+                overflow: hidden;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                @include flex(column);
+                justify-content: start;
+                align-items: start;
+                gap: 10px;
+                li{
+                    width: 100%;
+                    a{
+                        
+                        margin-left: 50px;
+                    }
+                }
+            }
+        }
     }
 }

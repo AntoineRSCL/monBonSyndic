@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Form\PersonType;
-use App\Repository\PersonRepository;
 use App\Service\PaginationService;
+use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminPersonController extends AbstractController
 {
@@ -40,6 +41,11 @@ class AdminPersonController extends AbstractController
         ]);
     }
 
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     /**
      * SErt a ajouter une nouvelle personne
      *
@@ -62,7 +68,8 @@ class AdminPersonController extends AbstractController
             $building = $admin->getBuilding();
 
             $person->setBuilding($building)
-                ->setRoles(["ROLE_USER"]);
+                ->setRoles(["ROLE_USER"])
+                ->setPassword($this->passwordHasher->hashPassword($person, 'password'));
             $manager->persist($person);
             // j'envoie les persistances dans la bdd
             $manager->flush();

@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\News;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Building;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<News>
@@ -14,6 +15,22 @@ class NewsRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, News::class);
+    }
+
+    /**
+     * Recupere les 2 dernieres news par immeuble
+     *
+     * @return array
+     */
+    public function findLastTwoNewsByBuilding(Building $building): array
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.building = :building')
+            ->setParameter('building', $building)
+            ->orderBy('n.date', 'DESC')
+            ->setMaxResults(2)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

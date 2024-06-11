@@ -3,7 +3,88 @@
 {% block title %}Mon Bon Syndic {% endblock %}
 
 {% block body %}
-    <div class="color marginForm">
-        <h1 class="text-white">Bienvenue sur la page de {{building.name}}</h1>
+    <div class="containerBuilding">
+        <div class="imgBuildingHome">
+            <img src="/uploads/pictures/{{building.picture}}" alt="Image de {{building.name}}">
+            <div class="buildingName">
+                <div class="textBuilding">
+                    <h1>{{building.name}}</h1>
+                    <span>{{building.address}} {{building.number}}</span>
+                    <span>{{building.zip}} {{building.locality}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="linksMenu">
+            <div class="containerLinksMenu">
+                <div class="linkContainer">
+                    <div class="link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M96 96c0-35.3 28.7-64 64-64H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H80c-44.2 0-80-35.8-80-80V128c0-17.7 14.3-32 32-32s32 14.3 32 32V400c0 8.8 7.2 16 16 16s16-7.2 16-16V96zm64 24v80c0 13.3 10.7 24 24 24H296c13.3 0 24-10.7 24-24V120c0-13.3-10.7-24-24-24H184c-13.3 0-24 10.7-24 24zm208-8c0 8.8 7.2 16 16 16h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H384c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H384c-8.8 0-16 7.2-16 16zM160 304c0 8.8 7.2 16 16 16H432c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16H432c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z"/></svg>
+                    </div>
+                    <span>ACTUALITES</span>
+                    <a href="#"></a>
+                </div>
+                {% if userConnected %}
+                    <div class="linkContainer">
+                        <div class="link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm64 192c17.7 0 32 14.3 32 32v96c0 17.7-14.3 32-32 32s-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm64-64c0-17.7 14.3-32 32-32s32 14.3 32 32V352c0 17.7-14.3 32-32 32s-32-14.3-32-32V160zM320 288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32z"/></svg></div>
+                        <span>SONDAGES</span>
+                        <a href="#"></a>
+                    </div>
+                {% endif %}
+                <div class="linkContainer">
+                    <div class="link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zm80 64c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h96c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H80z"/></svg></div>
+                    <span>DATE À VENIR</span>
+                    <a href="#"></a>
+                </div>
+                <div class="linkContainer">
+                    <div class="link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg></div>
+                    <span>CONTACT</span>
+                    <a href="#"></a>
+                </div>
+                {% if userConnected %}
+                    <div class="linkContainer">
+                        <div class="link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg></div>
+                        <span>MON COMPTE</span>
+                        <a href="{{path('account_index')}}"></a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="actuBuilding">
+            <div class="actuBuildingContainer">
+                <div class="titleAB">
+                    <h2>ACTUALITÉS</h2>
+                </div>
+                <div class="newsContainer">
+                    {% for news in latestNews %}
+                        <div class="newsItem">
+                            <div class="nouvelleContainer">
+                                <div class="imgNouvelle">
+                                    {% if news.picture %}
+                                        <img src="/uploads/pictures/{{news.picture}}" alt="Image de {{news.title}}">
+                                    {% endif %}
+                                    <div class="seeMoreBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+                                    </div>
+                                </div>
+                                <div class="titleNouvelle">
+                                    <span class="titleNews">{{news.title}}</span>
+                                    <span>{{news.content|length > 90 ? news.content|slice(0, 90) ~ '...' : news.content}}</span>
+                                </div>
+                                <a href="#" class='linkNews'></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="linkAllNews">
+                    <div class="containerLAN">
+                        <span class="textLAN">
+                            <span>Toutes les actualités</span>
+                        </span>
+                        <div class="btnSeeAllLan"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg></div>
+                        <a href="#" class="linkLAN"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

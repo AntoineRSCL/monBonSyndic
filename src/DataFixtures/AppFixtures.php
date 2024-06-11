@@ -57,7 +57,7 @@ class AppFixtures extends Fixture
         for($i=1; $i<=5; $i++)
         {
             $building = new Building();
-            $building->setName($faker->word())
+            $building->setName("Immeuble ".$i)
                 ->setAddress($faker->streetName())
                 ->setNumber($faker->buildingNumber())
                 ->setZip($faker->postcode())

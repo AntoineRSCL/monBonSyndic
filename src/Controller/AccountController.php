@@ -18,6 +18,12 @@ use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthentication
 
 class AccountController extends AbstractController
 {
+    /**
+     * Fonction pour se connecter au site
+     *
+     * @param AuthenticationUtils $utils
+     * @return Response
+     */
     #[Route('/login', name: 'account_login')]
     public function index(AuthenticationUtils $utils): Response
     {
@@ -38,12 +44,22 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour se deconnecter
+     *
+     * @return void
+     */
     #[Route("/logout", name: "account_logout")]
     public function logout(): void
     {
 
     }
 
+    /**
+     * Fonction pour voir son profil
+     *
+     * @return Response
+     */
     #[Route("/account", name:"account_index")]
     #[IsGranted('ROLE_USER')]
     public function myAccount(): Response
@@ -53,6 +69,13 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour modif ses donnees
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/account/profile", name:"account_profile")]
     public function profile(Request $request, EntityManagerInterface $manager): Response
     {
@@ -83,6 +106,14 @@ class AccountController extends AbstractController
 
     }
 
+    /**
+     * Fonction pour changer son mot de passe
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route("/account/passwordupdate", name:"account_password")]
     #[IsGranted('ROLE_USER')]
     public function updatePassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response

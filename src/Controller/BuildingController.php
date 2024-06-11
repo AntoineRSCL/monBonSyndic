@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BuildingController extends AbstractController
 {
+    /**
+     * Route pour les immeubles on recupere toutes les donnees pour chaque page
+     */
     #[Route('/building/{slug}', name: 'building_index')]
     public function index(Building $building, NewsRepository $newsRepository): Response
     {

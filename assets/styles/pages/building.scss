@@ -5,7 +5,7 @@
     margin-top: 100px;
     font-family: $roboto;
 
-    #accueil, #actualite, #evenement{
+    #accueil, #actualite, #evenement, #sondage{
         display: block;
         width: 100%;
         position: relative;
@@ -326,6 +326,211 @@
         width: 100%;
         min-height: calc(100vh - 100px);
         background-color: $white;
+        color: $blueHard;
+        @include flex(row);
+        .sondageBuildingContainer{
+            width: 100%;
+            max-width: 1200px;
+            min-height: 70vh;
+            @include flex(column);
+            justify-content: start;
+            @media all and (max-width: 1200px) {
+              max-width: 900px;
+            }
+            @media all and (max-width: 900px) {
+              max-width: 600px;
+            }
+            @media all and (max-width: 600px) {
+              max-width: 400px;
+            }
+            @media all and (max-width: 400px) {
+              max-width: 300px;
+            }
+            .titleSliderSB{
+                width: 100%;
+                height: 100px;
+                @include flex(row);
+                @media all and (max-width: 1200px) {
+                    margin-top: 50px;
+                }
+                h2{
+                    margin: 0;
+                    padding: 0;
+                    font-size: 90px;
+                    @media all and (max-width: 600px) {
+                        font-size: 70px;
+                    }
+                    @media all and (max-width: 400px) {
+                        font-size: 60px;
+                    }
+                }
+            }
+            .sondageContainer{
+                width: 100%;
+                min-height: calc(70vh - 150px);
+                @include flex(row);
+                justify-content: space-between;
+                gap: 20px;
+                flex-wrap: wrap;
+                @media all and (max-width: 1200px) {
+                    align-items: center;
+                    justify-content: center;
+                }
+                @media all and (max-width: 1050px) {
+                    gap: 0;
+                }
+                
+                .sondageItem{
+                    width: 100%;
+                    max-width: 550px;
+                    height: calc(70vh - 150px);
+                    @include flex(row);
+                    @media all and (max-width: 575px) {
+                        max-width: 300px;
+                    }
+
+                    .surveyContainer{
+                        width: 100%;
+                        height: 90%;
+                        @include flex(column);
+                        justify-content: start;
+                        .imgSondage{
+                            width: 100%;
+                            height: 40%;
+                            position: relative;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                position: absolute;
+                            }
+                        }
+                        .descriptionSondage{
+                            width: 100%;
+                            padding: 10px 0;
+                            min-height: 10%;
+                            text-align: center;
+                        }
+                        form{
+                            width: 100%;
+                            height: 50%;
+                            @include flex(column);
+                            justify-content: start;
+                            gap: 5px;
+                            .choicesSondage{
+                                width: 100%;
+                                height: 45%;
+                                @include flex(row);
+                                gap: 20px;
+                                .choice{
+                                    width: 100px;
+                                    height: 100%;
+                                    position: relative;
+                                    border: 1px solid $blueHard;
+
+                                    input{
+                                        position: absolute;
+                                        height: 100%;
+                                        width: 100%;
+                                        margin: 0;
+                                        cursor: pointer;
+                                        z-index: 2;
+                                        opacity: 0;
+                                        &:checked+.radioTitle {
+                                            background-color: $blueHard;
+                                            color: $white;
+                                            svg{
+                                                fill: $white;
+                                            }
+                                        }
+                                    }
+                                    .radioTitle{
+                                        height: 100%;
+                                        transition: all 300ms ease;
+                                        label{
+                                            width: 100%;
+                                            height: 100%;
+                                            @include flex(column);
+                                            svg{
+                                                width: 25px;
+                                                height: 25px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .btnSubmitSondage{
+                                width: 100%;
+                                height: 30%;
+                                @include flex(row);
+                                button{
+                                    height: 100%;
+                                    width: 340px;
+                                    background-color: $yellow;
+                                    border: none;
+                                }
+                            }
+                            .messageVote{
+                                width: 100%;
+                                height: 25%;
+                                @include flex(row);
+                            }
+                        }
+                    }
+                }
+            }
+            .linkAllSurveys{
+                width: 100%;
+                height: 75px;
+                @include flex(row);
+                justify-content: end;
+                transition: all 0.5s;
+                .containerLAS{
+                    width: 225px;
+                    height: 100%;
+                    position: relative;
+                    @include flex(row);
+                    justify-content: end;
+                    gap: 10px;
+                    &:hover{
+                        .textLAS{
+                            span{
+                                border-bottom: 1px solid $blueHard;
+                            }
+                        }
+                        .btnSeeAllLas{
+                            background-color: $yellow;
+                            svg{
+                                fill: $blueHard;
+                            }
+                        }
+                    }
+                    .textLAS{
+                        color: $blueHard;
+                        font-style: italic;
+                        font-size: 18px;
+                    }
+                    .btnSeeAllLas{
+                        width: 50px;
+                        height: 50px;
+                        clip-path: polygon(7% 25%, 52% 0, 95% 25%, 95% 75%, 53% 100%, 7% 75%);
+                        background-color: $blueHard;
+                        transition: all 0.5s;
+                        @include flex(row);
+                        svg{
+                            width: 25px;
+                            height: 25px;
+                            fill: $yellow;
+                        }
+                    }
+                    .linkLAS{
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                    }
+                }
+            }
+        }
     }
     .eventBuilding{
         width: 100%;
@@ -377,6 +582,7 @@
                 @media all and (max-width: 1200px) {
                     @include flex(column);
                     height: 200px;
+                    margin-top: 50px;
                 }
                 h2{
                     margin: 0;

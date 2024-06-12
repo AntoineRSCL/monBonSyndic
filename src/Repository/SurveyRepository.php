@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Survey;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Building;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Survey>
@@ -14,6 +15,17 @@ class SurveyRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Survey::class);
+    }
+
+    public function findLastTwoSurveysByBuilding(Building $building): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.building = :building')
+            ->setParameter('building', $building)
+            ->orderBy('s.id', 'DESC')
+            ->setMaxResults(2)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

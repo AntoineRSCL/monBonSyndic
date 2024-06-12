@@ -89,7 +89,65 @@
             </div>
         </div>
         {% if app.user and userConnected and userConnected.id == building.id %}
-            <div class="sondageBuilding"></div>
+            <div id="sondage"></div>
+            <div class="sondageBuilding">
+                <div class="sondageBuilding">
+                    <div class="sondageBuildingContainer">
+                        <div class="titleSliderSB">
+                            <h2>SONDAGES</h2>
+                        </div>
+                        <div class="sondageContainer">
+                            {% for sondage in latestSurveys %}
+                                <div class="sondageItem">
+                                    <div class="surveyContainer">
+                                        <h4>{{sondage.question}}</h4>
+                                        <div class="imgSondage">
+                                            <img src="/uploads/pictures/{{sondage.picture}}" alt="Image de {{sondage.question}}">
+                                        </div>
+                                        <div class="descriptionSondage">
+                                            <p>{{sondage.description}}</p>
+                                        </div>
+                                        <form method="post" action="{{ path('vote_submit', {'surveyId': sondage.id}) }}">
+                                            {% set userVote = userVotes[sondage.id] ?? null %}
+                                            <div class="choicesSondage">
+                                                <div class="choice">
+                                                    <input type="radio" name="answer" value="Pour" id="Pour_{{ sondage.id }}" required {% if userVote == 'Pour' %}checked{% endif %}>
+                                                    <div class="radioTitle"><label for="Pour_{{ sondage.id }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>  Pour</label></div>
+                                                </div>
+                                                <div class="choice">
+                                                    <input type="radio" name="answer" value="Contre" id="Contre_{{ sondage.id }}" required {% if userVote == 'Contre' %}checked{% endif %}>
+                                                    <div class="radioTitle"><label for="Contre_{{ sondage.id }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg> Contre</label></div>
+                                                </div>
+                                                <div class="choice">
+                                                    <input type="radio" name="answer" value="Abstention" id="Abstention_{{ sondage.id }}" required {% if userVote == 'Abstention' %}checked{% endif %}>
+                                                    <div class="radioTitle"><label for="Abstention_{{ sondage.id }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M464 48V464H48V48H464zM48 0H0V48 464v48H48 464h48V464 48 0H464 48z"/></svg> Abstention</label></div>
+                                                </div>
+                                            </div>
+                                            <div class="btnSubmitSondage">
+                                                <button type="submit">{{ userVote ? 'Modifier' : 'Envoyer' }}</button>
+                                            </div>
+                                            {% if userVote %}
+                                                <div class="messageVote">
+                                                    <span>Vous avez voté: {{ userVote }}</span>
+                                                </div>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="linkAllSurveys">
+                            <div class="containerLAS">
+                                <span class="textLAS">
+                                    <span>Tous les sondages</span>
+                                </span>
+                                <div class="btnSeeAllLas"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg></div>
+                                <a href="#" class="linkLAS"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endif %}
         <div id="evenement"></div>
         <div class="eventBuilding">

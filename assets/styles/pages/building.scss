@@ -385,6 +385,7 @@
                     max-width: 550px;
                     height: calc(70vh - 150px);
                     @include flex(row);
+                    border: 1px solid $blueHard;
                     @media all and (max-width: 575px) {
                         max-width: 300px;
                     }
@@ -395,7 +396,7 @@
                         @include flex(column);
                         justify-content: start;
                         .imgSondage{
-                            width: 100%;
+                            width: 60%;
                             height: 40%;
                             position: relative;
                             img{

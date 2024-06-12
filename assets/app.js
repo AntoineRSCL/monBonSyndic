@@ -9,6 +9,7 @@ import './styles/app.css';
 import './styles/bootstrap.min.css';
 import './styles/pages/building.scss';
 import './styles/pages/home.scss';
+import './styles/partials/footer.scss';
 import './styles/partials/header.scss';
 
 import './js/burger.js'

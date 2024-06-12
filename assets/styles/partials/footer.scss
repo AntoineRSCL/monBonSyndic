@@ -1,0 +1,115 @@
+@import '../variables/variable.scss';
+.footer{
+    width: 100%;
+    min-height: 30vh;
+    @include flex(column);
+    font-family: $roboto;
+    box-sizing: border-box;
+    color: $blueHard;
+    .footerUp, .footerDown{
+        width: 100%;
+        max-width: 1200px;
+    }
+    .footerUp{
+        min-height: 200px;
+        padding: 50px 0;
+        @include flex(row);
+        justify-content: space-around;
+        align-items: start;
+        flex-wrap: wrap;
+        gap: 50px;
+        border-bottom: 1px solid $blueHard;
+        .infoMBS, .ouverture, .mbsFooter{
+            @include flex(column);
+            align-items: start;
+            width: 300px;
+
+            .linkHomeFooter{
+                text-decoration: none;
+                color: $blueHard;
+            }
+            .containerLCF{
+                width: 275px;
+                height: 100%;
+                position: relative;
+                @include flex(row);
+                justify-content: start;
+                gap: 10px;
+                &:hover{
+                    .textLCF{
+                        span{
+                            border-bottom: 1px solid $blueHard;
+                        }
+                    }
+                    .btnSeeAllLcf{
+                        background-color: $yellow;
+                        svg{
+                            fill: $blueHard;
+                        }
+                    }
+                }
+                .textLCF{
+                    color: $blueHard;
+                    font-style: italic;
+                    font-size: 18px;
+                }
+                .btnSeeAllLcf{
+                    width: 50px;
+                    height: 50px;
+                    clip-path: polygon(7% 25%, 52% 0, 95% 25%, 95% 75%, 53% 100%, 7% 75%);
+                    background-color: $blueHard;
+                    transition: all 0.5s;
+                    @include flex(row);
+                    svg{
+                        width: 25px;
+                        height: 25px;
+                        fill: $yellow;
+                    }
+                }
+                .linkLCF{
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                }
+            }
+        }
+    }
+    .footerDown{
+        min-height: 100px;
+        @include flex(row);
+        justify-content: space-around;
+        color: $blueHard;
+        flex-wrap: wrap;
+        gap: 20px 200px;
+        padding: 30px 0;
+
+        a{
+            text-decoration: none;
+            color: $blueHard;
+        }
+        .logoRS{
+            width: 200px;
+            height: 50px;
+            @include flex(row);
+            .logo{
+                width: 50px;
+                height: 50px;
+                clip-path: polygon(7% 25%, 52% 0, 95% 25%, 95% 75%, 53% 100%, 7% 75%);
+                background-color: $blueHard;
+                cursor: pointer;
+                @include flex(row); 
+                svg{
+                    width: 25px;
+                    height: 25px;
+                    fill: $yellow;
+                }
+                &:hover{
+                    background-color: $yellow;
+                    svg{
+                        fill: $blueHard;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -12,6 +12,7 @@ import './styles/pages/home.scss';
 import './styles/partials/header.scss';
 
 import './js/burger.js'
+import './js/sliderEvent.js'
 
 import 'bootstrap/dist/js/bootstrap.bundle';
 

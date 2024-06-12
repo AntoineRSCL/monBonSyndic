@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Building;
 use App\Repository\NewsRepository;
+use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ class BuildingController extends AbstractController
      * Route pour les immeubles on recupere toutes les donnees pour chaque page
      */
     #[Route('/building/{slug}', name: 'building_index')]
-    public function index(Building $building, NewsRepository $newsRepository): Response
+    public function index(Building $building, NewsRepository $newsRepository, EventRepository $eventRepository): Response
     {
         $user = $this->getUser();
         $userConnected = null;
@@ -27,10 +28,13 @@ class BuildingController extends AbstractController
         // Récupérez les deux dernières actualités du bâtiment
         $latestNews = $newsRepository->findLastTwoNewsByBuilding($building);
 
+        $nextEvents = $eventRepository->findLastFourEventsByBuilding($building);
+
         return $this->render('building/index.html.twig', [
             'building' => $building,
             'userConnected' => $userConnected,
-            'latestNews' => $latestNews
+            'latestNews' => $latestNews,
+            'nextEvents' => $nextEvents
         ]);
     }
 }

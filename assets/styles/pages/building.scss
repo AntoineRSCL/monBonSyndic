@@ -5,6 +5,14 @@
     margin-top: 100px;
     font-family: $roboto;
 
+    #accueil, #actualite, #evenement{
+        display: block;
+        width: 100%;
+        position: relative;
+        visibility: hidden;
+        top: -100px; /* Déplace l'ancre vers le haut de 200px */
+    }
+
     .imgBuildingHome{
         width: 100%;
         height: 65vh;
@@ -311,7 +319,274 @@
                         position: absolute;
                     }
                 }
-                
+            }
+        }
+    }
+    .sondageBuilding{
+        width: 100%;
+        min-height: calc(100vh - 100px);
+        background-color: $white;
+    }
+    .eventBuilding{
+        width: 100%;
+        min-height: calc(100vh - 100px);
+        background-color: $yellow;
+        position: relative;
+        @include flex(row);
+
+        &::before{
+            position: absolute;
+            content: "";
+            width: 200px;
+            height: 200px;
+            right: 0;
+            bottom: 0;
+            clip-path: polygon(100% 100%, 0 100%, 100% 0);
+            background-color: $white;
+            @media all and (max-width: 1400px) {
+                width: 100px;
+                height: 100px;
+            }
+            @media all and (max-width: 1300px) {
+                display: none;
+            }
+        }
+        .eventBuildingContainer{
+            width: 100%;
+            max-width: 1200px;
+            min-height: 70vh;
+            @include flex(column);
+            justify-content: start;
+            @media all and (max-width: 1200px) {
+              max-width: 900px;
+            }
+            @media all and (max-width: 900px) {
+              max-width: 600px;
+            }
+            @media all and (max-width: 600px) {
+              max-width: 400px;
+            }
+            @media all and (max-width: 400px) {
+              max-width: 300px;
+            }
+            .titleSliderEB{
+                width: 100%;
+                height: 100px;
+                @include flex(row);
+                justify-content: space-between;
+                @media all and (max-width: 1200px) {
+                    @include flex(column);
+                    height: 200px;
+                }
+                h2{
+                    margin: 0;
+                    padding: 0;
+                    font-size: 90px;
+                }
+                .btnSliderEB{
+                    width: 150px;
+                    height: 100px;
+                    @include flex(row);
+                    justify-content: end;
+                    gap: 5px;
+                    @media all and (max-width: 1200px) {
+                        justify-content: center;
+                    }
+                    div{
+                        width: 50px;
+                        height: 50px;
+                        clip-path: polygon(7% 25%, 52% 0, 95% 25%, 95% 75%, 53% 100%, 7% 75%);
+                        background-color: $blueHard;
+                        transition: all 0.5s;
+                        cursor: pointer;
+                        @include flex(row);
+                        svg{
+                            width: 25px;
+                            height: 25px;
+                            fill: $yellow;
+                        }
+                        &:hover{
+                            background-color: $blueBasic;
+                        }
+                    }
+                }
+            }
+            .sliderEventCont{
+                width: 100%;
+                height: calc(70vh - 175px);
+                overflow: hidden;
+                position: relative;
+
+                .sliderEvent{
+                    height: 100%;
+                    display: flex;
+                    transition: transform 0.5s ease;
+                    .sliderItem{
+                        flex: 0 0 50%;
+                        @include flex(row);
+                        justify-content: start;
+                        position: relative;
+                        @media all and (max-width: 600px) {
+                            flex: 0 0 100%;
+                        }
+                        @media (min-width:601px) and (max-width: 900px) {
+                            align-items: start;
+                            justify-content: center;
+                        }
+                        &:hover{
+                            cursor: pointer;
+                            .infoEvent{
+                                background-color: $black;
+                            }
+                            .imgEvent{
+                                right: -40% !important;
+                                @media (min-width:601px) and (max-width: 900px) {
+                                    right: 0;
+                                    bottom: -40% !important;
+                                }
+                            }
+                        }
+                        .infoEvent{
+                            width: 65%;
+                            height: 65%;
+                            position: relative;
+                            background-color: $blueHard;
+                            .infoContainer{
+                                width: 80%;
+                                height: 100%;
+                                padding: 30px;
+                                position: absolute;
+                                @include flex(column);
+                                align-items: start;
+                                justify-content: start;
+                                color: $white;
+                                gap: 20px;
+                                @media (min-width:601px) and (max-width: 900px) {
+                                    width: 100%;
+                                    height: 80%;
+                                    gap: 10px;
+                                    padding: 15px;
+                                }
+                                .dateEvent{
+                                    font-size: 30px;
+                                    @media all and (max-width: 1200px) {
+                                        font-size: 20px;
+                                    }
+                                }
+                                .titleEvent{
+                                    font-size: 24px;
+                                    @media all and (max-width: 1200px) {
+                                        font-size: 16px;
+                                    }
+                                }
+                                .durationEvent{
+                                    @include flex(row);
+                                    gap: 10px;
+                                    @media all and (max-width: 900px) {
+                                        gap: 5px;
+                                    }
+                                    svg{
+                                        width: 25px;
+                                        height: 25px;
+                                        fill: $white;
+                                        @media all and (max-width: 900px) {
+                                            width: 15px;
+                                            height: 15px;
+                                        }
+                                    }
+                                    span{
+                                        font-size: 20px;
+                                        @media all and (max-width: 1200px) {
+                                            font-size: 14px;
+                                        }
+                                        @media all and (max-width: 900px) {
+                                            font-size: 12px;
+                                        }
+                                    }
+                                }
+                            }
+                            .imgEvent{
+                                width: 70%;
+                                height: 70%;
+                                position: absolute;
+                                right: -50%;
+                                top: 50%;
+                                transform: translateY(-50%);
+                                transition: all 0.5s ;
+                                @media (min-width:601px) and (max-width: 900px) {
+                                    right: 0;
+                                    transform: translateY(0%);
+                                    transform: translateX(-50%);
+                                    left: 50%;
+                                    top: auto;
+                                    bottom: -50%;
+                                }
+                                img{
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                }
+                            }
+                        }
+                        .linkEvent{
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                        }
+                    }
+                }
+            }
+            .linkAllEvents{
+                width: 100%;
+                height: 75px;
+                @include flex(row);
+                justify-content: end;
+                transition: all 0.5s;
+                margin-top: 20px;
+                .containerLAE{
+                    width: 275px;
+                    height: 100%;
+                    position: relative;
+                    @include flex(row);
+                    justify-content: end;
+                    gap: 10px;
+                    &:hover{
+                        .textLAE{
+                            span{
+                                border-bottom: 1px solid $white;
+                            }
+                        }
+                        .btnSeeAllLae{
+                            background-color: $blueBasic;
+                            svg{
+                                fill: $yellow;
+                            }
+                        }
+                    }
+                    .textLAE{
+                        color: $white;
+                        font-style: italic;
+                        font-size: 18px;
+                    }
+                    .btnSeeAllLae{
+                        width: 50px;
+                        height: 50px;
+                        clip-path: polygon(7% 25%, 52% 0, 95% 25%, 95% 75%, 53% 100%, 7% 75%);
+                        background-color: $blueHard;
+                        transition: all 0.5s;
+                        @include flex(row);
+                        svg{
+                            width: 25px;
+                            height: 25px;
+                            fill: $yellow;
+                        }
+                    }
+                    .linkLAE{
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                    }
+                }
             }
         }
     }

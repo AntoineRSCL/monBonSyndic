@@ -9,7 +9,8 @@
             </div>
         </div>
         <ul class="navHeader">
-            {% if app.request.attributes.get('_route') == 'building_index' %} 
+            {% set building_slug = get_building_slug() %}
+            {% if building_slug %}
                 <li><a href="{{ path('building_index', {'slug': building.slug}) }}#accueil">Accueil</a></li>
                 <li><a href="{{ path('building_index', {'slug': building.slug}) }}#actualite">Actualités</a></li>
                 <li><a href="{{ path('building_index', {'slug': building.slug}) }}#evenement">Evenements</a></li>

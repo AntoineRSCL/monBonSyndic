@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}News for {{ building.name }}{% endblock %}
+
+{% block body %}
+    <h1>News for {{ building.name }}</h1>
+
+    <ul>
+        {% for new in news %}
+            <li>
+                <h2>{{ new.title }}</h2>
+                <p>{{ new.content }}</p>
+                {% if new.picture %}
+                    <img src="{{ asset(new.picture) }}" alt="{{ new.title }}">
+                {% endif %}
+                <p><small>Published on {{ new.date|date('Y-m-d H:i') }}</small></p>
+            </li>
+        {% else %}
+            <li>No news found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

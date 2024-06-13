@@ -30,3 +30,8 @@ services:
         arguments:
             $router: '@router'
             $security: '@security.helper'
+    App\Twig\AppExtension:
+        arguments:
+            $requestStack: '@request_stack'
+        tags:
+            - { name: twig.extension }

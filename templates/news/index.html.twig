@@ -1,22 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}News for {{ building.name }}{% endblock %}
+{% block title %}News des {{ building.name }}{% endblock %}
 
 {% block body %}
-    <h1>News for {{ building.name }}</h1>
-
-    <ul>
-        {% for new in news %}
-            <li>
-                <h2>{{ new.title }}</h2>
-                <p>{{ new.content }}</p>
-                {% if new.picture %}
-                    <img src="{{ asset(new.picture) }}" alt="{{ new.title }}">
-                {% endif %}
-                <p><small>Published on {{ new.date|date('Y-m-d') }}</small></p>
-            </li>
-        {% else %}
-            <li>No news found.</li>
-        {% endfor %}
-    </ul>
+    <div class="containerPage">
+        <div class="imgPage">
+            <img src="/images/NewsFont.jpg" alt="Image d'accueil News">
+        </div>
+        <div class="titlePage">
+            <div class="titlePageContainer">
+                <h2>{{ building.name }}</h2>
+                <h1>Actualités</h1>
+                <span>Retrouvez ici toutes les actualités</span>
+                <span>Cliquez sur une actualité pour en savoir plus.</span>
+            </div>
+        </div>
+    </div>
+    <div class="containerNewsPage">
+        <div class="newsContainer">
+            {% for new in news %}
+                <div class="newItem">
+                    <h3>{{new.title}}</h3>
+                    <p>{{ new.content|length > 200 ? new.content|slice(0, 200) ~ '...' : new.content }}</p>
+                    <div class="dateNews">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M96 32V64H48C21.5 64 0 85.5 0 112v48H448V112c0-26.5-21.5-48-48-48H352V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V64H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32zM448 192H0V464c0 26.5 21.5 48 48 48H400c26.5 0 48-21.5 48-48V192z"/></svg>
+                        <span>{{ new.date|date('d/m/Y') }}</span>
+                    </div>
+                    <a href="#" class="linkNew"></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

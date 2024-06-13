@@ -19,6 +19,87 @@ $roboto: "Roboto", sans-serif;
     align-items: center;
 }
 
+@mixin pageFormat(){
+    .containerPage{
+        width: 100%;
+        min-height: 70vh;
+        margin-top: 100px;
+        @include flex(column);
+        justify-content: start;
+        position: relative;
+        &::before{
+            position: absolute;
+            content: "";
+            width: 150px;
+            height: 150px;
+            bottom: -1px;
+            right: 0;
+            background-color: $white;
+            clip-path: polygon(100% 100%, 0 100%, 100% 0);
+
+            @media all and (max-width: 1200px) {
+                width: 100px;
+                height: 100px;
+            }
+            @media all and (max-width: 900px) {
+                width: 50px;
+                height: 50px;
+            }
+            @media all and (max-width: 600px) {
+                display: none;
+            }
+        }
+        .imgPage{
+            width: 100%;
+            height: 40vh;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+        .titlePage{
+            width: 100%;
+            min-height: 30vh;
+            background-color: $blueHard;
+            @include flex(row);
+            color: $white;
+            font-family: $roboto;
+            .titlePageContainer{
+                width: 100%;
+                max-width: 1200px;
+                min-height: 25vh;
+                @include flex(column);
+                align-items: start;
+                justify-content: start;
+                padding: 20px;
+                @media all and (max-width: 1200px) {
+                    max-width: 900px;
+                }
+                @media all and (max-width: 900px) {
+                    max-width: 600px;
+                }
+                @media all and (max-width: 600px) {
+                    max-width: 400px;
+                }
+                @media all and (max-width: 400px) {
+                    max-width: 300px;
+                }
+                h2{
+                    font-size: 40px;
+                }
+                h1{
+                    font-size: 60px;
+                    color: $yellow;
+                }
+                span{
+                    font-size: 1.25rem;
+                }
+            }
+        }
+    }
+}
+
 .marginForm{
     margin-top: 100px;
 }

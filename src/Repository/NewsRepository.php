@@ -33,6 +33,16 @@ class NewsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllNewsByDate(Building $building): array 
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.building = :building')
+            ->setParameter('building', $building)
+            ->orderBy('n.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return News[] Returns an array of News objects
     //     */

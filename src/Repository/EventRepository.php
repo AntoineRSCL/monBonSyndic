@@ -30,6 +30,18 @@ class EventRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    public function findAllEventsByDateAndBuilding(Building $building): array 
+    {
+        return $this->createQueryBuilder('e')
+        ->andWhere('e.building = :building')
+        ->andWhere('e.date > :currentDate')
+        ->setParameter('building', $building)
+        ->setParameter('currentDate', new \DateTime()) // Utilise la date actuelle pour filtrer
+        ->orderBy('e.date', 'ASC') // Trie par date croissante
+        ->getQuery()
+        ->getResult();
+    }
+
     //    /**
     //     * @return Event[] Returns an array of Event objects
     //     */

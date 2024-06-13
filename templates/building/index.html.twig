@@ -72,7 +72,7 @@
                                     <span class="titleNews">{{news.title}}</span>
                                     <span>{{news.content|length > 90 ? news.content|slice(0, 90) ~ '...' : news.content}}</span>
                                 </div>
-                                <a href="#" class='linkNews'></a>
+                                <a href="{{ path('news_show', { 'building_slug': building.slug, 'news_id': news.id }) }}" class='linkNews'></a>
                             </div>
                         </div>
                     {% endfor %}
@@ -180,7 +180,7 @@
                                         <img src="/uploads/pictures/{{event.picture}}" alt="Image de {{event.title}}">
                                     </div>
                                 </div>
-                                <a class="linkEvent" href="#"></a>
+                                <a class="linkEvent" href="{{ path('event_show', { 'building_slug': building.slug, 'event_id': event.id }) }}"></a>
                             </div>
                         {% endfor %}
                     </div>
@@ -191,7 +191,7 @@
                             <span>Toutes les dates à venir</span>
                         </span>
                         <div class="btnSeeAllLae"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg></div>
-                        <a href="#" class="linkLAE"></a>
+                        <a href="{{ path('events_index', {'slug': building.slug}) }}" class="linkLAE"></a>
                     </div>
                 </div>
                 </div>

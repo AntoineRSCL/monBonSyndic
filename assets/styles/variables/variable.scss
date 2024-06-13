@@ -95,6 +95,16 @@ $roboto: "Roboto", sans-serif;
                 span{
                     font-size: 1.25rem;
                 }
+                .dateNew{
+                    font-size: 1.25rem;
+                    @include flex(row);
+                    gap: 10px;
+                    svg{
+                        width: 15px;
+                        height: 15px;
+                        fill: $white;
+                    }
+                }
             }
         }
     }

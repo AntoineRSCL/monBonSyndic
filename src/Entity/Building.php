@@ -77,6 +77,12 @@ class Building
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'building', orphanRemoval: true)]
     private Collection $events;
 
+    /**
+     * @var Collection<int, Contact>
+     */
+    #[ORM\OneToMany(targetEntity: Contact::class, mappedBy: 'building')]
+    private Collection $contacts;
+
     public function __construct()
     {
         $this->apartments = new ArrayCollection();
@@ -84,6 +90,7 @@ class Building
         $this->surveys = new ArrayCollection();
         $this->news = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     /**
@@ -347,6 +354,36 @@ class Building
             // set the owning side to null (unless already changed)
             if ($event->getBuilding() === $this) {
                 $event->setBuilding(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): static
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+            $contact->setBuilding($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): static
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getBuilding() === $this) {
+                $contact->setBuilding(null);
             }
         }
 

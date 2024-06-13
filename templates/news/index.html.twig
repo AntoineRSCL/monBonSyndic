@@ -13,7 +13,7 @@
                 {% if new.picture %}
                     <img src="{{ asset(new.picture) }}" alt="{{ new.title }}">
                 {% endif %}
-                <p><small>Published on {{ new.date|date('Y-m-d H:i') }}</small></p>
+                <p><small>Published on {{ new.date|date('Y-m-d') }}</small></p>
             </li>
         {% else %}
             <li>No news found.</li>

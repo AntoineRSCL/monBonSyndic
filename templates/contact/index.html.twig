@@ -5,52 +5,78 @@
 {% form_theme form _self %}
 
 {% block body %}
-    <div class="container marginForm">
-        <h1 class="my-2">Envoyer un message</h1>
-        <form method="post" enctype="multipart/form-data">
-            {{ form_start(form) }}
-
-            {# Champ Nom #}
-            <div class="form-group">
-                {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'control-label'}}) }}
-                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.name) }}
+    <div class="containerPage">
+        <div class="imgPage">
+            <img src="/images/ContactFont.jpg" alt="Image d'accueil Evènement">
+        </div>
+        <div class="titlePage">
+            <div class="titlePageContainer">
+                {% set building_slug = get_building_slug() %}
+                {% if building_slug %}
+                    <h2>{{ building.name }}</h2>
+                {% else %}
+                    <h2>Mon Bon Syndic</h2>
+                {% endif %}
+                <h1>Contactez-Nous</h1>
+                <span>Pour toute demande de renseignements, merci de compléter ce formulaire.</span>
+                {% if building_slug and app.user and app.user.building.id == building.id %}
+                    <span>Pour toutes demandes urgentes veuillez utilisez le formulaire de panne</span>
+                {% endif %}
             </div>
-
-            {# Champ Prénom #}
-            <div class="form-group">
-                {{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'control-label'}}) }}
-                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.firstName) }}
-            </div>
-
-            {# Champ Email #}
-            <div class="form-group">
-                {{ form_label(form.email, 'Email', {'label_attr': {'class': 'control-label'}}) }}
-                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.email) }}
-            </div>
-
-            {# Champ Sujet #}
-            <div class="form-group">
-                {{ form_label(form.subject, 'Sujet', {'label_attr': {'class': 'control-label'}}) }}
-                {{ form_widget(form.subject, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.subject) }}
-            </div>
-
-            {# Champ Message #}
-            <div class="form-group">
-                {{ form_label(form.message, 'Message', {'label_attr': {'class': 'control-label'}}) }}
-                {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.message) }}
-            </div>
-
-            {# Bouton de soumission #}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Envoyer</button>
-            </div>
-
-            {{ form_end(form) }}
-        </form>
+        </div>
+    </div>
+    <div class="formContact">
+        <div class="contactContainer">
+            <h2>Envoyer un message</h2>
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-{{ label }}">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <form method="post" enctype="multipart/form-data">
+                {{ form_start(form) }}
+                <div class="names">
+                    <div class="inputContact">
+                        {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                    <div class="inputContact">
+                        {{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.firstName) }}
+                    </div>
+                </div>
+                <div class="emailContact">
+                    <div class="inputContact">
+                        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                </div>
+                <div class="subjectContact">
+                    <div class="inputContact">
+                        {{ form_label(form.subject, 'Sujet', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.subject, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.subject) }}
+                    </div>
+                </div>
+                <div class="messageContact">
+                    <div class="inputContact">
+                        {{ form_label(form.message, 'Message', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.message) }}
+                    </div>
+                </div>
+                <div class="submitContact">
+                    <div class="submitBtn">
+                        <button type="submit" class="submitBtn">Envoyer</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </form>
+        </div>
     </div>
 {% endblock %}

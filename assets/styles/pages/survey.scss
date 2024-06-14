@@ -1,0 +1,171 @@
+@import '../variables/variable.scss';
+@include pageFormat();
+.containerEventPage{
+    width: 100%;
+    min-height: 20vh;
+    @include flex(column);
+    .surveyContainer{
+        width: 100%;
+        max-width: 1200px;
+        min-height: 20vh;
+        @include flex(column);
+        justify-content: space-around;
+        padding: 50px 0;
+        gap: 50px;
+        @media all and (max-width: 1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width: 900px) {
+            max-width: 600px;
+        }
+        @media all and (max-width: 600px) {
+            max-width: 400px;
+        }
+        @media all and (max-width: 400px) {
+            max-width: 300px;
+        }
+        .sondageAncre{
+            display: block;
+            width: 100%;
+            position: relative;
+            visibility: hidden;
+            top: -50px; /* Déplace l'ancre vers le haut de 200px */
+        }
+        .sondageItem{
+            width: 500px;
+            min-height: 500px;
+            @include flex(row);
+            border: 1px solid $blueHard;
+            padding: 0;
+            @media all and (max-width: 550px) {
+                max-width: 300px;
+            }
+
+            .sondageContainer{
+                width: 100%;
+                min-height: 500px;
+                @include flex(column);
+                justify-content: space-around;
+                gap: 10px;
+                .imgSondage{
+                    width: 65%;
+                    height: 100px;
+                    position: relative;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        position: absolute;
+                    }
+                }
+                .descriptionSondage{
+                    width: 100%;
+                    padding: 10px 0;
+                    min-height: 10%;
+                    text-align: center;
+                }
+                form{
+                    width: 100%;
+                    height: 200px;
+                    @include flex(column);
+                    justify-content: start;
+                    gap: 5px;
+                    .choicesSondage{
+                        width: 100%;
+                        height: 45%;
+                        @include flex(row);
+                        gap: 20px;
+                        .choice{
+                            width: 100px;
+                            height: 100%;
+                            position: relative;
+                            border: 1px solid $blueHard;
+
+                            input{
+                                position: absolute;
+                                height: 100%;
+                                width: 100%;
+                                margin: 0;
+                                cursor: pointer;
+                                z-index: 2;
+                                opacity: 0;
+                                &:checked+.radioTitle {
+                                    background-color: $blueHard;
+                                    color: $white;
+                                    svg{
+                                        fill: $white;
+                                    }
+                                }
+                            }
+                            .radioTitle{
+                                height: 100%;
+                                transition: all 300ms ease;
+                                label{
+                                    width: 100%;
+                                    height: 100%;
+                                    @include flex(column);
+                                    svg{
+                                        width: 25px;
+                                        height: 25px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .btnSubmitSondage{
+                        width: 100%;
+                        height: 30%;
+                        @include flex(row);
+                        button{
+                            height: 100%;
+                            width: 340px;
+                            background-color: $yellow;
+                            border: none;
+                        }
+                    }
+                    .messageVote{
+                        width: 100%;
+                        height: 25%;
+                        @include flex(row);
+                    }
+                }
+            }
+        }
+    }
+    .containerBackSurvey{
+        width: 100%;
+        max-width: 1200px;
+        height: 50px;
+        @include flex(row);
+        justify-content: end;
+        @media all and (max-width: 1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width: 900px) {
+            max-width: 600px;
+        }
+        @media all and (max-width: 600px) {
+            max-width: 400px;
+        }
+        @media all and (max-width: 400px) {
+            max-width: 300px;
+            }
+        .backEvent{
+            width: 200px;
+            height: 50px;
+            position: relative;
+            background-color: $blueHard;
+            &:hover{
+                background-color: rgb(0, 53, 63, 0.4);
+            }
+            a{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                @include flex(column);
+                text-decoration: none;
+                color: $yellow;
+            }
+        }
+    }
+}

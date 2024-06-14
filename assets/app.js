@@ -12,6 +12,7 @@ import './styles/pages/contact.scss';
 import './styles/pages/event.scss';
 import './styles/pages/home.scss';
 import './styles/pages/news.scss';
+import './styles/pages/survey.scss';
 import './styles/partials/footer.scss';
 import './styles/partials/header.scss';
 

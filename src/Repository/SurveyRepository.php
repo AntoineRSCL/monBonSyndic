@@ -28,6 +28,16 @@ class SurveyRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllSurveysByBuilding(Building $building): array 
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.building = :building')
+            ->setParameter('building', $building)
+            ->orderBy('s.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Survey[] Returns an array of Survey objects
     //     */

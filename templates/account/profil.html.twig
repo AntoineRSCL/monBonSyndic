@@ -3,14 +3,32 @@
 {% block title %}Bonjour {{user.fullName}}{% endblock %}
 
 {% block body %}
-    <div class="container marginForm">
-        {% for label, messages in app.flashes %}
-            <div class="alert alert-{{ label }}">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
+    <div class="accountContainer">
+        <div class="containerProfil">
+            {% for label, messages in app.flashes %}
+                <div class="alertProfil alert-{{ label }}">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <h1>Bonjour {{user.fullName}}</h1>
+            <div class="actionProfil">
+                <div class="actionP"><a href="{{path('account_profile')}}"></a>Modifier mon profil</div>
+                <div class="actionP"><a href="{{ path('building_index', {'slug': app.user.building.slug}) }}"></a>Voir {{app.user.building.name}}</div>
+                <div class="actionP"><a href="{{path('account_password')}}"></a>Modifier mon mot de passe</div>
+                <div class="actionP"><a href="{{path('account_issue')}}"></a>Signalez un problème</div>
+            </div>
+            <div class="ownerContainer">
+                {% for owner in owners %}
+                    <span>Hello</span>
                 {% endfor %}
             </div>
-        {% endfor %}
-        <h1>Bonjour {{user.fullName}}</h1> 
+            <div class="issueContainer">
+                {% for issue in issues %}
+                    <span>Test</span>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

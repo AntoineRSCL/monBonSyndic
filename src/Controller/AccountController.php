@@ -7,6 +7,8 @@ use App\Form\IssueType;
 use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\PasswordUpdateType;
+use App\Repository\IssueRepository;
+use App\Repository\OwnerRepository;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,10 +66,17 @@ class AccountController extends AbstractController
      */
     #[Route("/account", name:"account_index")]
     #[IsGranted('ROLE_USER')]
-    public function myAccount(): Response
+    public function myAccount(OwnerRepository $ownerRepository, IssueRepository $issueRepository): Response
     {
+        $person = $this->getUser();
+
+        $owner = $ownerRepository->getPersonOwner($person);
+        $issue = $issueRepository->getPersonIssue($person);
+
         return $this->render('account/profil.html.twig', [
-            'user' => $this->getUser()
+            'user' => $this->getUser(),
+            'owners' => $owner,
+            'issues' => $issue
         ]);
     }
 

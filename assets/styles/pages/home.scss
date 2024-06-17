@@ -80,3 +80,69 @@
         }
     }
 }
+
+.accountContainer{
+    width: 100%;
+    min-height: 80vh;
+    margin-top: 100px;
+    background-color: $blueHard;
+    @include flex(column);
+    .containerProfil{
+        width: 100%;
+        max-width: 1200px;
+        min-height: 70vh;
+        @include flex(column);
+        align-items: start;
+        justify-content: start;
+        padding: 20px 0;
+        background-color: yellow;
+        gap: 15px;
+        @media all and (max-width: 1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width: 900px) {
+            max-width: 600px;
+        }
+        @media all and (max-width: 600px) {
+            max-width: 400px;
+        }
+        @media all and (max-width: 400px) {
+            max-width: 300px;
+        }
+        .alertProfil{
+            width: 100%;
+            height: 50px;
+            @include flex(row);
+            p{
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .actionProfil{
+            width: 100%;
+            min-height: 50px;
+            @include flex(row);
+            justify-content: start;
+            gap: 20px;
+            flex-wrap: wrap;
+            .actionP{
+                width: 225px;
+                height: 50px;
+                background-color: red;
+                @include flex(row);
+                position: relative;
+                a{
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                }
+            }
+        }
+        .ownerContainer, .issueContainer{
+            width: 100%;
+            min-height: 20vh;
+            background-color: orange;
+            border: 1px solid white;
+        }
+    }
+}

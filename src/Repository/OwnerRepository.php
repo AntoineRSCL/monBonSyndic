@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Owner;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Person;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Owner>
@@ -14,6 +15,16 @@ class OwnerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Owner::class);
+    }
+
+    public function getPersonOwner(Person $person): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.person = :person')
+            ->setParameter('person', $person)
+            ->orderBy('o.startDate', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

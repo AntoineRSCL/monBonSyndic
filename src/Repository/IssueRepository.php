@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Issue;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Person;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Issue>
@@ -14,6 +15,16 @@ class IssueRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Issue::class);
+    }
+
+    public function getPersonIssue(Person $person): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.person = :person')
+            ->setParameter('person', $person)
+            ->orderBy('i.date', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

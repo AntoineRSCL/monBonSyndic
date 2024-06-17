@@ -22,7 +22,15 @@
             <h2>Vos appartements</h2>
             <div class="ownerContainer">
                 {% for owner in owners %}
-                    <span>Hello</span>
+                    <div class="ownerItem">
+                        <span>{{ owner.apartment.reference }}</span>
+                        <span>{{ owner.startDate|date('d/m/Y') }}</span>
+                            {% if owner.endDate is not null %}
+                                {{ owner.endDate|date('d-m-Y') }}
+                            {% else %}
+                                En cours
+                            {% endif %}
+                    </div>
                 {% endfor %}
             </div>
             <h2>Vos problèmes signalés</h2>

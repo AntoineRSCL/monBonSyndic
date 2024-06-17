@@ -16,6 +16,14 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/syndic', name: 'syndic')]
+    public function syndic(): Response
+    {
+        return $this->render('syndic/index.html.twig', [
+            
+        ]);
+    }
+
     /**
      * Permet d'afficher la page de mentions légales
      *

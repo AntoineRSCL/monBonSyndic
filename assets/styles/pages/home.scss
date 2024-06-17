@@ -1,9 +1,55 @@
 @import '../variables/variable.scss';
 @include pageFormat();
-.color{
+.homepage{
     width: 100%;
-    height: 100vh;
-    background-color: $blueHard;
+    min-height: 90vh;
+    margin-top: 100px;
+    @include flex(column);
+    justify-content: start;
+
+    .imgHome{
+        width: 100%;
+        height: 50vh;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .textHomeContainer{
+        width: 100%;
+        max-width: 1200px;
+        min-height: 40vh;
+        @include flex(column);
+        padding: 20px;
+        @media all and (max-width: 1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width: 900px) {
+            max-width: 600px;
+        }
+        @media all and (max-width: 600px) {
+            max-width: 400px;
+        }
+        @media all and (max-width: 400px) {
+            max-width: 300px;
+        }
+        .textHome{
+            @include flex(column);
+            width: 100%;
+            min-height: 40vh;
+            justify-content: start;
+            align-items: start;
+            h1{
+                width: 100%;
+                text-align: center;
+                margin-bottom: 50px;
+            }
+            p{
+                margin: 5px 0;
+            }
+        }
+    }
 }
 
 .legalContainer{

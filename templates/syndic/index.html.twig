@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Bon Syndic {% endblock %}
+
+{% block body %}
+    <div class="homepage">
+        <div class="imgHome">
+            <img src="/images/ReunionFont.jpg" alt="Image de fond de mon bon syndic">
+        </div>
+        <div class="textHomeContainer">
+            <div class="textHome">
+                <h1>Qui sommes-nous ?</h1>
+                <p>Depuis notre création en 2018, <strong>Mon Bon Syndic</strong> s'est imposé comme un acteur de confiance dans la gestion de copropriétés à Bruxelles. Situé à l'Avenue des Croissants Perdus, notre cabinet est composé d'une équipe de professionnels dévoués, alliant compétence et proximité pour répondre à vos besoins immobiliers.</p>
+
+                <h2>Notre philosophie</h2>
+                <p>Chez <strong>Mon Bon Syndic</strong>, nous croyons en une gestion immobilière transparente, efficace et humaine. Nous mettons un point d'honneur à établir une relation de confiance avec nos clients, en assurant une communication claire et en étant toujours à l'écoute de leurs préoccupations. Notre approche est centrée sur la satisfaction de nos copropriétaires, garantissant ainsi une gestion sereine et harmonieuse de leurs biens.</p>
+
+                <h2>Les missions du syndic</h2>
+                <p><strong>Mon Bon Syndic</strong> s'engage à :</p>
+                <ul>
+                    <li><strong>Gestion administrative</strong> : Nous assurons la tenue des assemblées générales, la rédaction des procès-verbaux et la mise à jour des documents légaux de la copropriété.</li>
+                    <li><strong>Gestion financière</strong> : Nous élaborons le budget prévisionnel, veillons au recouvrement des charges et gérons les comptes bancaires de la copropriété avec transparence et rigueur.</li>
+                    <li><strong>Gestion technique</strong> : Nous supervisons les travaux d'entretien et de rénovation, en collaboration avec des prestataires qualifiés, et nous veillons à la maintenance régulière des équipements communs.</li>
+                    <li><strong>Gestion des sinistres</strong> : En cas de sinistre, nous nous occupons de la déclaration, du suivi des dossiers d'assurance et de la coordination des réparations nécessaires.</li>
+                    <li><strong>Communication</strong> : Nous favorisons une communication fluide et réactive avec les copropriétaires, en utilisant des outils modernes pour vous tenir informés en temps réel des décisions et actions entreprises.</li>
+                </ul>
+
+                <p>Avec <strong>Mon Bon Syndic</strong>, bénéficiez d'une gestion immobilière sereine, efficace et personnalisée. Nous sommes là pour protéger et valoriser votre patrimoine, tout en facilitant la vie en copropriété.</p>
+
+                <p>Pour plus d'informations sur nos services ou pour toute demande, n'hésitez pas à nous <a href="{{path('contact_index')}}">contacter.</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

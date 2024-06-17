@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Formulaire de problème{% endblock %}
+
+{% form_theme myForm _self %}
+
+{% block body %}
+
+ <div class="containerForm">
+        <div class="formCont">
+            <div class="formInfos">
+                <h1>Quel est votre problème</h1>
+                <form method="post">
+                    {{ form_start(myForm) }}
+                    
+                    {# Champ title #}
+                    <div class="form-group">
+                        {{ form_label(myForm.title, 'Title', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(myForm.title, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(myForm.title) }}
+                    </div>
+                    
+                    {# Champ description #}
+                    <div class="form-group">
+                        {{ form_label(myForm.description, 'Description', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(myForm.description, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(myForm.description) }}
+                    </div>
+                    
+                    {# Champ urgency #}
+                    <div class="form-group">
+                        {{ form_label(myForm.urgency, 'Urgence', {'label_attr': {'class': 'control-label'}}) }}
+                        {{ form_widget(myForm.urgency, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(myForm.urgency) }}
+                    </div>
+                    
+                    {# Bouton de soumission #}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Signalez mon problème</button>
+                    </div>
+                    
+                    {{ form_end(myForm) }}
+                </form>
+            </div>
+        </div>    
+    </div>
+{% endblock %}

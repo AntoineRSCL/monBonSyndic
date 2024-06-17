@@ -87,10 +87,17 @@ class Person implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'person', orphanRemoval: true)]
     private Collection $votes;
 
+    /**
+     * @var Collection<int, Issue>
+     */
+    #[ORM\OneToMany(targetEntity: Issue::class, mappedBy: 'person', orphanRemoval: true)]
+    private Collection $issues;
+
     public function __construct()
     {
         $this->owners = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->issues = new ArrayCollection();
     }
 
     /**
@@ -411,6 +418,36 @@ class Person implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($vote->getPerson() === $this) {
                 $vote->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Issue>
+     */
+    public function getIssues(): Collection
+    {
+        return $this->issues;
+    }
+
+    public function addIssue(Issue $issue): static
+    {
+        if (!$this->issues->contains($issue)) {
+            $this->issues->add($issue);
+            $issue->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIssue(Issue $issue): static
+    {
+        if ($this->issues->removeElement($issue)) {
+            // set the owning side to null (unless already changed)
+            if ($issue->getPerson() === $this) {
+                $issue->setPerson(null);
             }
         }
 

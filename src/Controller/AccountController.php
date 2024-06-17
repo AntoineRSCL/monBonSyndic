@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Issue;
+use App\Form\IssueType;
 use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\PasswordUpdateType;
@@ -153,4 +155,41 @@ class AccountController extends AbstractController
         ]);
 
     }
+
+    #[Route("/account/problem", name:"account_issue")]
+    #[IsGranted('ROLE_USER')]
+    public function createIssue(Request $request, EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser();
+        $issue = new Issue();
+
+        $building = $user->getBuilding();
+
+        $form = $this->createForm(IssueType::class, $issue);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+
+            $issue->setBuilding($building)
+                ->setPerson($user)
+                ->setDate(new \DateTime())
+                ->setStatus("Envoyé");
+
+            $manager->persist($issue);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Le problème a bien été envoyé"
+            );
+
+            return $this->redirectToRoute('account_index');
+        }
+
+        return $this->render("account/issue.html.twig",[
+            'myForm' => $form->createView()
+        ]);
+    }
+
 }

@@ -1,0 +1,53 @@
+@import '../variables/variable.scss';
+.containerForm{
+    width: 100%;
+    margin-top: 100px;
+    min-height: calc(100vh - 310px - 100px);
+    background-color: $yellow;
+    @include flex(column);
+    .formCont{
+        width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        max-width: 1200px;
+        min-height: 20vh;
+        color: $blueHard;
+        font-family: $roboto;
+        border: 1px solid $blueHard;
+        @include flex(column);
+        padding: 40px;
+        @media all and (max-width: 1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width: 900px) {
+            max-width: 600px;
+        }
+        @media all and (max-width: 600px) {
+            max-width: 400px;
+        }
+        @media all and (max-width: 400px) {
+            max-width: 300px;
+        }
+        .formInfos{
+            width: 60%;
+            min-height: 20vh;
+            @include flex(column);
+            justify-content: start;
+            gap: 20px;
+            @media all and (max-width: 900px) {
+                width: 80%;
+            }
+            @media all and (max-width: 400px) {
+                width: 100%;
+            }
+            h2{
+                margin: 0;
+                padding: 0;
+            }
+            form{
+                width: 100%;
+                min-height: 20vh;
+            }
+        }
+    }
+}

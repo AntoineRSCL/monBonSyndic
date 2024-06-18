@@ -8,6 +8,7 @@ use App\Service\PaginationService;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -126,6 +127,16 @@ class AdminPersonController extends AbstractController
     public function delete(Person $person, EntityManagerInterface $manager): Response
     {
         $admin = $this->getUser();
+
+        if ($admin->getId() === $person->getId()) {
+            $this->addFlash(
+                'danger',
+                'Vous ne pouvez pas vous supprimer vous-même.'
+            );
+    
+            return $this->redirectToRoute('admin_person_index');
+        }
+
         if ($admin->getBuilding()->getId() !== $person->getBuilding()->getId()) {
             // Redirigez vers une page d'erreur ou effectuez toute autre action appropriée
             throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer cette personne.');
@@ -139,6 +150,52 @@ class AdminPersonController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute('admin_person_index');
+    }
+    
+    #[Route("/admin/person/{id}/send-email", name:"admin_person_send_email")]
+    public function sendEmail(Person $person, MailerInterface $mailer, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        // Générez un nouveau mot de passe temporaire
+        $newPlainPassword = $this->generateRandomPassword(); // Fonction à implémenter pour générer un mot de passe aléatoire
+
+        // Hasher le nouveau mot de passe temporaire
+        $newHashedPassword = $passwordHasher->hashPassword($person, $newPlainPassword);
+
+        // Mettez à jour le mot de passe de l'utilisateur dans la base de données
+        $person->setPassword($newHashedPassword);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($person);
+        $entityManager->flush();
+
+        // Envoyez l'e-mail avec le nouveau mot de passe temporaire
+        $email = (new Email())
+            ->from('abaut2001@gmail.com')
+            ->to($person->getEmail())
+            ->subject('Vos informations de connexion')
+            ->html(sprintf('Bonjour %s,<br>Votre nom d\'utilisateur est : %s<br>Votre nouveau mot de passe temporaire est : %s<br>Merci de le changer lors de votre prochaine connexion.', $person->getFirstName(), $person->getUsername(), $newPlainPassword));
+
+        $mailer->send($email);
+
+        // Ajouter un message flash de succès
+        $this->addFlash('success', 'E-mail envoyé avec les informations de connexion à ' . $person->getEmail());
+
+        return $this->redirectToRoute('admin_person_index');
+    }
+
+    /**
+     * Génère un mot de passe aléatoire.
+     */
+    private function generateRandomPassword(int $length = 15): string
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $password = '';
+        $max = strlen($characters) - 1;
+
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[random_int(0, $max)];
+        }
+
+        return $password;
     }
 
     /**

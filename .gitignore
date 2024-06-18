@@ -6,6 +6,7 @@
 /public/bundles/
 /var/
 /vendor/
+/online/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###

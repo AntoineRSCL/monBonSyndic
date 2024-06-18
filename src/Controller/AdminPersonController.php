@@ -154,7 +154,7 @@ class AdminPersonController extends AbstractController
     }
     
     #[Route("/admin/person/{id}/send-email", name:"admin_person_send_email")]
-    public function sendEmail(Person $person, MailerInterface $mailer, UserPasswordHasherInterface $passwordHasher): Response
+    public function sendEmail(Person $person, MailerInterface $mailer, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
         // Générez un nouveau mot de passe temporaire
         $newPlainPassword = $this->generateRandomPassword(); // Fonction à implémenter pour générer un mot de passe aléatoire
@@ -164,7 +164,6 @@ class AdminPersonController extends AbstractController
 
         // Mettez à jour le mot de passe de l'utilisateur dans la base de données
         $person->setPassword($newHashedPassword);
-        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($person);
         $entityManager->flush();
 

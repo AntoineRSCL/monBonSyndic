@@ -1,6 +1,6 @@
 {% extends 'superadmin/base.html.twig' %}
 
-{% block title %}Hello AdminPersonController!{% endblock %}
+{% block title %}Appartement | SuperAdmin{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
@@ -40,20 +40,41 @@
             <tbody>
                 {% for apartment in pagination.data %}
                     <tr>
-                        <td>{{apartment.id}}</td>
-                        <td>{{apartment.building.name}}</td>
-                        <td>{{apartment.reference}}</td>
-                        <td>{{apartment.floor}}</td>
-                        <td>{{apartment.quota1}}</td>
-                        <td>{{apartment.quota2}}</td>
+                        <td>{{ apartment.id }}</td>
+                        <td>{{ apartment.building.name }}</td>
+                        <td>{{ apartment.reference }}</td>
+                        <td>{{ apartment.floor }}</td>
+                        <td>{{ apartment.quota1 }}</td>
+                        <td>{{ apartment.quota2 }}</td>
                         <td class="text-center">
-                            <a href="{{path("superadmin_apartment_edit",{"id":apartment.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <a href="{{path("superadmin_apartment_delete",{"id":apartment.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            <a href="{{ path('superadmin_apartment_edit', {'id': apartment.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="{{ path('superadmin_apartment_delete', {'id': apartment.id}) }}" class="btn btn-danger delete-apartment"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {{pagination.display()}}
+        {{ pagination.display() }}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélection des liens de suppression des appartements
+            const deleteLinks = document.querySelectorAll('.delete-apartment');
+
+            // Ajout d'un gestionnaire d'événement sur chaque lien
+            deleteLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    // Empêcher le comportement par défaut du lien (navigation)
+                    event.preventDefault();
+
+                    // Afficher une boîte de dialogue de confirmation
+                    if (confirm('Êtes-vous sûr de vouloir supprimer cet appartement ?')) {
+                        // Si l'utilisateur confirme, naviguer vers l'URL de suppression
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -39,30 +40,44 @@ class Person implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 60)]
+    #[Assert\Length(min: 2, max: 60, minMessage:"Le nom ne doit pas faire moins de 2 caractères", maxMessage: "Le nom ne doit pas faire plus de 60 caractères")]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Length(min: 2, max: 50, minMessage:"Le prénom ne doit pas faire moins de 2 caractères", maxMessage: "Le prénom ne doit pas faire plus de 50 caractères")]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Length(min: 2, max: 100, minMessage:"L'email ne doit pas faire moins de 2 caractères", maxMessage: "L'email ne doit pas faire plus de 50 caractères")]
+    #[Assert\Email(message: "Veuillez renseigner une adresse e-mail valide")]
     private ?string $email = null;
 
     #[ORM\Column(length: 25, nullable: true)]
+    #[Assert\Length(max: 5, maxMessage:"Le numero de telephone doit faire maximum 25 caractères")]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre addresse")]
     private ?string $address = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\Length(max: 10, maxMessage:"Le numero doit faire maximum 10 caractères")]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre addresse")]
     private ?string $number = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Length(max: 10, maxMessage:"Le zip doit faire maximum 20 caractères")]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre zipcode")]
     private ?string $zip = null;
 
     #[ORM\Column(length: 70)]
+    #[Assert\Length(max: 70, maxMessage:"La ville doit faire maximum 70 caractères")]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre ville")]
     private ?string $locality = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Length(max: 70, maxMessage:"Le pays doit faire maximum 50 caractères")]
+    #[Assert\NotBlank(message: "Veuillez renseigner votre pays")]
     private ?string $country = null;
 
     #[ORM\Column]

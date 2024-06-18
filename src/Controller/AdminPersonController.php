@@ -70,8 +70,7 @@ class AdminPersonController extends AbstractController
             $building = $admin->getBuilding();
 
             $person->setBuilding($building)
-                ->setRoles(["ROLE_USER"])
-                ->setPassword($this->passwordHasher->hashPassword($person, 'password'));
+                ->setRoles(["ROLE_USER"]);
             $manager->persist($person);
             // j'envoie les persistances dans la bdd
             $manager->flush();

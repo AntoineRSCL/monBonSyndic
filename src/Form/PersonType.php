@@ -35,12 +35,24 @@ class PersonType extends ApplicationType
                 'required' => false,
             ])
         ;
+
+        // Ajoutez le champ building uniquement si l'option include_building est true
+        if ($options['include_building']) {
+            $builder->add('building', EntityType::class, [
+                'class' => Building::class,
+                'choice_label' => 'name', // Assurez-vous que votre entité Building a une propriété 'name'
+                'label' => 'Bâtiment',
+                'placeholder' => 'Sélectionnez un bâtiment',
+                'required' => true,
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Person::class,
+            'include_building' => false, // Défaut à false
         ]);
     }
 }

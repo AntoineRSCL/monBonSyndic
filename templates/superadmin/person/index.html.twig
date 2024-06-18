@@ -1,0 +1,93 @@
+{% extends 'superadmin/base.html.twig' %}
+
+{% block title %}Superadministration des personnes{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Superadministration des personnes</h1>
+        <a href="{{ path('superadmin_person_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter un admin</span>
+        </a>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form method="get" action="{{ path('superadmin_person_search') }}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="q" value="{{ app.request.query.get('q') }}" placeholder="Rechercher par prénom" aria-label="Rechercher" aria-describedby="button-addon2">
+                        <select name="building" class="form-control ms-2">
+                            <option value="">Sélectionner un immeuble</option>
+                            {% for building in buildings %}
+                                <option value="{{ building.id }}" {% if building.id == selectedBuilding %}selected{% endif %}>{{ building.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-primary ms-2" type="submit" id="button-addon2">Rechercher</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Rôles</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# Afficher la liste normale des personnes ici #}
+                {% if pagination is defined and pagination %}
+                    {% for person in pagination.data %}
+                        <tr>
+                            <td>{{ person.id }}</td>
+                            <td>{{ person.firstName }}</td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.email }}</td>
+                            <td>{{ person.roles | join(', ') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('superadmin_person_edit', {'id': person.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ path('superadmin_person_delete', {'id': person.id}) }}" class="btn btn-danger delete-person" data-id="{{ person.id }}"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% elseif persons is defined %}
+                    {% for person in persons %}
+                        <tr>
+                            <td>{{ person.id }}</td>
+                            <td>{{ person.firstName }}</td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.email }}</td>
+                            <td>{{ person.roles | join(', ') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('superadmin_person_edit', {'id': person.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ path('superadmin_person_delete', {'id': person.id}) }}" class="btn btn-danger delete-person" data-id="{{ person.id }}"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+        
+        {% if pagination is defined and pagination %}
+            {{ pagination.display() }}
+        {% endif %}
+        {# Pagination display can be here if you are using pagination #}
+    </div>
+
+    <script>
+        // JavaScript pour la confirmation de suppression
+        document.querySelectorAll('.delete-person').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Empêche le lien de suivre immédiatement
+
+                // Afficher une boîte de dialogue de confirmation
+                if (confirm("Êtes-vous sûr de vouloir supprimer cette personne ?")) {
+                    // Si l'utilisateur confirme, suivre le lien de suppression
+                    window.location.href = this.getAttribute('href');
+                }
+            });
+        });
+    </script>
+{% endblock %}

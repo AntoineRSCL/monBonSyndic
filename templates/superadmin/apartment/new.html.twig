@@ -12,30 +12,35 @@
             <div class="form-group">
                 {{ form_label(form.building, 'Building') }}
                 {{ form_widget(form.building, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.building) }}
             </div>
 
             {# Champ pour la référence de l'appartement #}
             <div class="form-group">
                 {{ form_label(form.reference, 'Reference') }}
                 {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.reference) }}
             </div>
 
             {# Champ pour l'étage de l'appartement #}
             <div class="form-group">
                 {{ form_label(form.floor, 'Etage') }}
                 {{ form_widget(form.floor, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.floor) }}
             </div>
 
             {# Champ pour le quota 1 de l'appartement #}
             <div class="form-group">
                 {{ form_label(form.quota1, 'Quota1') }}
                 {{ form_widget(form.quota1, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.quota1) }}
             </div>
 
             {# Champ pour le quota 2 de l'appartement #}
             <div class="form-group">
                 {{ form_label(form.quota2, 'Quota2') }}
                 {{ form_widget(form.quota2, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.quota2) }}
             </div>
 
             {# Bouton de soumission #}

@@ -1,6 +1,6 @@
 {% extends 'superadmin/base.html.twig' %}
 
-{% block title %}Hello AdminPersonController!{% endblock %}
+{% block title %}Administration des immeubles{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
@@ -13,29 +13,50 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Name</th>
-                    <th>Address</th>
+                    <th>Nom</th>
+                    <th>Adresse</th>
                     <th>Quota</th>
-                    <th>Picture</th>
+                    <th>Image</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for building in pagination.data %}
                     <tr>
-                        <td>{{building.id}}</td>
-                        <td>{{building.name}}</td>
-                        <td>{{building.address}} {{building.number}} ,{{building.zip}} {{building.locality}}</td>
-                        <td>{{building.quota}}</td>
-                        <td>{{building.picture}}</td>
+                        <td>{{ building.id }}</td>
+                        <td>{{ building.name }}</td>
+                        <td>{{ building.address }} {{ building.number }}, {{ building.zip }} {{ building.locality }}</td>
+                        <td>{{ building.quota }}</td>
+                        <td>{{ building.picture }}</td>
                         <td class="text-center">
-                            <a href="{{path("superadmin_building_edit",{"id":building.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <a href="{{path("superadmin_building_delete",{"id":building.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            <a href="{{ path('superadmin_building_edit', {'id': building.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="{{ path('superadmin_building_delete', {'id': building.id}) }}" class="btn btn-danger delete-building"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        {{pagination.display()}}
+        {{ pagination.display() }}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélection des liens de suppression des immeubles
+            const deleteLinks = document.querySelectorAll('.delete-building');
+
+            // Ajout d'un gestionnaire d'événement sur chaque lien
+            deleteLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    // Empêcher le comportement par défaut du lien (navigation)
+                    event.preventDefault();
+
+                    // Afficher une boîte de dialogue de confirmation
+                    if (confirm('Êtes-vous sûr de vouloir supprimer cet immeuble ?')) {
+                        // Si l'utilisateur confirme, naviguer vers l'URL de suppression
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

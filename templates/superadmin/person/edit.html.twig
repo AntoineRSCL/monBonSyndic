@@ -1,0 +1,26 @@
+{% extends 'superadmin/base.html.twig' %}
+
+{% block title %}Modification du rôle d'une personne{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Modification du rôle d'une personne</h1>
+        <form method="post">
+            {{ form_start(form) }}
+
+            {# Champ pour le rôle de la personne #}
+            <div class="form-group">
+                {{ form_label(form.roles, 'Rôle') }}
+                {{ form_widget(form.roles) }} {# Affichage du champ en tant que menu déroulant #}
+                {{ form_errors(form.roles) }} {# Affichage des erreurs du champ #}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

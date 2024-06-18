@@ -26,15 +26,18 @@ class PersonRepository extends ServiceEntityRepository implements PasswordUpgrad
      * @param string $query Le terme de recherche
      * @return array Les résultats de la recherche
      */
-    public function search(string $query, Building $building): array
+    public function search(string $query, ?Building $building): array
     {
-        return $this->createQueryBuilder('p')
+        $qb = $this->createQueryBuilder('p')
             ->where('p.firstname LIKE :query OR p.name LIKE :query')
-            ->andWhere('p.building = :building') // Filtrer par bâtiment
-            ->setParameter('query', '%'.$query.'%')
-            ->setParameter('building', $building)
-            ->getQuery()
-            ->getResult();
+            ->setParameter('query', '%'.$query.'%');
+
+        if ($building) {
+            $qb->andWhere('p.building = :building')
+               ->setParameter('building', $building);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     /**

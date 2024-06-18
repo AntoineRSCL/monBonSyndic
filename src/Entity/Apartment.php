@@ -6,6 +6,7 @@ use App\Repository\ApartmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ApartmentRepository::class)]
 class Apartment
@@ -20,15 +21,19 @@ class Apartment
     private ?Building $building = null;
 
     #[ORM\Column(length: 5)]
+    #[Assert\Length(max: 5, maxMessage:"La réference doit faire maximum 5 caractères")]
     private ?string $reference = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     private ?int $floor = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     private ?int $quota1 = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     private ?int $quota2 = null;
 
     /**

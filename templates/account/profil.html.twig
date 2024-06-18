@@ -14,30 +14,74 @@
             {% endfor %}
             <h1>Bonjour {{user.fullName}}</h1>
             <div class="actionProfil">
-                <div class="actionP"><a href="{{path('account_profile')}}"></a>Modifier mon profil</div>
-                <div class="actionP"><a href="{{ path('building_index', {'slug': app.user.building.slug}) }}"></a>Voir {{app.user.building.name}}</div>
-                <div class="actionP"><a href="{{path('account_password')}}"></a>Modifier mon mot de passe</div>
-                <div class="actionP"><a href="{{path('account_issue')}}"></a>Signalez un problème</div>
+                <div class="actionP"><a href="{{path('account_profile')}}">Modifier mon profil</a></div>
+                <div class="actionP"><a href="{{ path('building_index', {'slug': app.user.building.slug}) }}">Voir {{app.user.building.name}}</a></div>
+                <div class="actionP"><a href="{{path('account_password')}}">Modifier mon mot de passe</a></div>
+                <div class="actionP"><a href="{{path('account_issue')}}">Signalez un problème</a></div>
             </div>
             <h2>Vos appartements</h2>
+
+            {% set inProgressOwners = owners|filter(owner => owner.endDate is null) %}
+            {% set completedOwners = owners|filter(owner => owner.endDate is not null) %}
+            
+            <h3>En cours</h3>
             <div class="ownerContainer">
-                {% for owner in owners %}
-                    <div class="ownerItem">
-                        <span>{{ owner.apartment.reference }}</span>
-                        <span>{{ owner.startDate|date('d/m/Y') }}</span>
-                            {% if owner.endDate is not null %}
-                                {{ owner.endDate|date('d-m-Y') }}
-                            {% else %}
-                                En cours
-                            {% endif %}
-                    </div>
-                {% endfor %}
+                {% if inProgressOwners is empty %}
+                    <p>Aucun en cours</p>
+                {% else %}
+                    {% for owner in inProgressOwners %}
+                        <div class="ownerItem">
+                            <span>Référence : {{ owner.apartment.reference }}</span>
+                            <span>Étage : {{ owner.apartment.floor }}</span>
+                            <span>Quota 1 : {{ owner.apartment.quota1 }}</span>
+                            <span>Quota 2 : {{ owner.apartment.quota2 }}</span>
+                            <span>Date de début : {{ owner.startDate|date('d/m/Y') }}</span>
+                            <span>Date de fin : En cours</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
+            
+            <h3>Terminés</h3>
+            <div class="ownerContainer">
+                {% if completedOwners is empty %}
+                    <p>Aucun terminé</p>
+                {% else %}
+                    {% for owner in completedOwners %}
+                        <div class="ownerItem">
+                            <span>Référence : {{ owner.apartment.reference }}</span>
+                            <span>Date de début : {{ owner.startDate|date('d/m/Y') }}</span>
+                            <span>Date de fin :{{ owner.endDate|date('d-m-Y') }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            
             <h2>Vos problèmes signalés</h2>
             <div class="issueContainer">
-                {% for issue in issues %}
-                    <span>Test</span>
-                {% endfor %}
+                {% if issues is empty %}
+                    <p>Aucun problème signalé</p>
+                {% else %}
+                    {% for issue in issues %}
+                        <div class="issueItem">
+                            <span>{{issue.title}}</span>
+                            <span>{{issue.date|date('d/m/Y')}}</span>
+                            <span>{{issue.description|length > 50 ? issue.description|slice(0, 50) ~ '...' : issue.description}}</span>
+                            <span class="urgency {% if issue.urgency == 'low' %}low{% elseif issue.urgency == 'medium' %}medium{% elseif issue.urgency == 'high' %}high{% elseif issue.urgency == 'critical' %}critical{% endif %}">
+                                {% if issue.urgency == 'low' %}
+                                    FAIBLE
+                                {% elseif issue.urgency == 'medium' %}
+                                    MOYENNE
+                                {% elseif issue.urgency == 'high' %}
+                                    HAUTE
+                                {% elseif issue.urgency == 'critical' %}
+                                    CRITIQUE
+                                {% endif %}
+                            </span>
+                            <span>Statut : {{issue.status}}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

@@ -153,6 +153,8 @@ class AdminPersonController extends AbstractController
         return $this->redirectToRoute('admin_person_index');
     }
     
+    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
     #[Route("/admin/person/{id}/send-email", name:"admin_person_send_email")]
     public function sendEmail(Person $person, MailerInterface $mailer, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -167,12 +169,15 @@ class AdminPersonController extends AbstractController
         $entityManager->persist($person);
         $entityManager->flush();
 
-        // Envoyez l'e-mail avec le nouveau mot de passe temporaire
+        // URL fixe vers la page de connexion
+        $loginUrl = 'http://monbonsyndic.bautantoine.com/login';
+
+        // Envoyez l'e-mail avec le nouveau mot de passe temporaire et le lien de connexion
         $email = (new Email())
             ->from('contact@monbonsyndic.bautantoine.com')
             ->to($person->getEmail())
             ->subject('Vos informations de connexion')
-            ->html(sprintf('Bonjour %s,<br>Votre nom d\'utilisateur est : %s<br>Votre nouveau mot de passe temporaire est : %s<br>Merci de le changer lors de votre prochaine connexion.', $person->getFirstName(), $person->getUsername(), $newPlainPassword));
+            ->html(sprintf('Bonjour %s,<br>Votre nom d\'utilisateur est : %s<br>Votre nouveau mot de passe temporaire est : %s<br>Merci de le changer lors de votre prochaine connexion.<br><br>Connectez-vous à <a href="%s">%s</a>', $person->getFirstName(), $person->getUsername(), $newPlainPassword, $loginUrl, $loginUrl));
 
         $mailer->send($email);
 
@@ -181,6 +186,7 @@ class AdminPersonController extends AbstractController
 
         return $this->redirectToRoute('admin_person_index');
     }
+
 
     /**
      * Génère un mot de passe aléatoire.

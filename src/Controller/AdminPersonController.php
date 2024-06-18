@@ -169,7 +169,7 @@ class AdminPersonController extends AbstractController
 
         // Envoyez l'e-mail avec le nouveau mot de passe temporaire
         $email = (new Email())
-            ->from('abaut2001@gmail.com')
+            ->from('contact@monbonsyndic.bautantoine.com')
             ->to($person->getEmail())
             ->subject('Vos informations de connexion')
             ->html(sprintf('Bonjour %s,<br>Votre nom d\'utilisateur est : %s<br>Votre nouveau mot de passe temporaire est : %s<br>Merci de le changer lors de votre prochaine connexion.', $person->getFirstName(), $person->getUsername(), $newPlainPassword));

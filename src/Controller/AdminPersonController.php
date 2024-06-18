@@ -155,6 +155,8 @@ class AdminPersonController extends AbstractController
     
     use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
     #[Route("/admin/person/{id}/send-email", name:"admin_person_send_email")]
     public function sendEmail(Person $person, MailerInterface $mailer, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -186,6 +188,7 @@ class AdminPersonController extends AbstractController
 
         return $this->redirectToRoute('admin_person_index');
     }
+
 
 
     /**

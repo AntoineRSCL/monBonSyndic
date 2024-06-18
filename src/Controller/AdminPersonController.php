@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Person;
 use App\Form\PersonType;
+use Symfony\Component\Mime\Email;
 use App\Service\PaginationService;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;

@@ -1,0 +1,24 @@
+{% extends 'superadmin/base.html.twig' %}
+
+{% block title %}Détails du message{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Détails du message</h1>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Message de {{ contact.name }} {{ contact.firstname }}</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ contact.message }}</p>
+            </div>
+            <div class="card-footer text-muted">
+                Envoyé le {{ contact.sendAt|date('d-m-Y H:i') }}
+            </div>
+            <div class="card-footer text-center">
+                <a href="mailto:{{ contact.email }}?subject=Re:%20{{ contact.subject }}" class="btn btn-primary"><i class="fas fa-reply"></i> Répondre</a>
+                <a href="{{ path('superadmin_contact_index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Retour</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

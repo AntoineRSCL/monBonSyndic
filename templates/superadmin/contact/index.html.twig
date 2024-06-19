@@ -1,0 +1,68 @@
+{% extends 'superadmin/base.html.twig' %}
+
+{% block title %}Administration des messages{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Administration des messages</h1>
+        {% if pagination.data is not empty %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Sujet</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in pagination.data %}
+                        <tr>
+                            <td>{{ message.id }}</td>
+                            <td>{{ message.name }}</td>
+                            <td>{{ message.firstname }}</td>
+                            <td>{{ message.email }}</td>
+                            <td>{{ message.subject }}</td>
+                            <td>{{ message.message|length > 50 ? message.message|slice(0, 50) ~ '...' : message.message }}</td>
+                            <td>{{ message.sendAt|date('d-m-Y') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('superadmin_contact_view', {'id': message.id}) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Voir détails</a>
+                                <a href="{{ path('superadmin_contact_delete', {'id': message.id}) }}" class="btn btn-danger delete-contact"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ pagination.display() }}
+        {% else %}
+            <div class="alert alert-info text-center mt-3" role="alert">
+                Aucun message trouvé.
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélection des liens de suppression des messages
+            const deleteLinks = document.querySelectorAll('.delete-contact');
+
+            // Ajout d'un gestionnaire d'événement sur chaque lien
+            deleteLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    // Empêcher le comportement par défaut du lien (navigation)
+                    event.preventDefault();
+
+                    // Afficher une boîte de dialogue de confirmation
+                    if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
+                        // Si l'utilisateur confirme, naviguer vers l'URL de suppression
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

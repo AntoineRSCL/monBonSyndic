@@ -30,6 +30,27 @@ class  StatsService{
     }
 
     /**
+     * Permet de recup toutes les personnes
+     *
+     * @return integer
+     */
+    public function getPersonCount(): int 
+    {
+        return $this->manager->createQuery("SELECT COUNT(p) FROM App\Entity\Person p")->getSingleScalarResult();
+    }
+
+    public function getContactCount($building = null): int
+    {
+        $query = $this->manager->createQuery(
+            "SELECT COUNT(c) FROM App\Entity\Contact c WHERE c.building = :building"
+        );
+
+        $query->setParameter('building', $building);
+
+        return $query->getSingleScalarResult();
+    }
+
+    /**
      * Permet de retourner le nombre de personne dans un building specifique
      *
      * @param [type] $building

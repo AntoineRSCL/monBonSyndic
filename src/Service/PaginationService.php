@@ -208,14 +208,18 @@ class PaginationService
             ->createQueryBuilder('e');
 
         foreach ($this->criteria as $field => $value) {
-            if (strpos($field, '.') !== false) {
-                list($relation, $relatedField) = explode('.', $field);
-                $queryBuilder->join("e.$relation", 'r')
-                            ->andWhere("r.$relatedField = :$relatedField")
-                            ->setParameter($relatedField, $value);
+            if ($value === null) {
+                $queryBuilder->andWhere("e.$field IS NULL");
             } else {
-                $queryBuilder->andWhere("e.$field = :$field")
-                            ->setParameter($field, $value);
+                if (strpos($field, '.') !== false) {
+                    list($relation, $relatedField) = explode('.', $field);
+                    $queryBuilder->join("e.$relation", 'r')
+                                ->andWhere("r.$relatedField = :$relatedField")
+                                ->setParameter($relatedField, $value);
+                } else {
+                    $queryBuilder->andWhere("e.$field = :$field")
+                                ->setParameter($field, $value);
+                }
             }
         }
 
@@ -254,14 +258,18 @@ class PaginationService
             ->select('COUNT(e.id)');
 
         foreach ($this->criteria as $field => $value) {
-            if (strpos($field, '.') !== false) {
-                list($relation, $relatedField) = explode('.', $field);
-                $queryBuilder->join("e.$relation", 'r')
-                            ->andWhere("r.$relatedField = :$relatedField")
-                            ->setParameter($relatedField, $value);
+            if ($value === null) {
+                $queryBuilder->andWhere("e.$field IS NULL");
             } else {
-                $queryBuilder->andWhere("e.$field = :$field")
-                            ->setParameter($field, $value);
+                if (strpos($field, '.') !== false) {
+                    list($relation, $relatedField) = explode('.', $field);
+                    $queryBuilder->join("e.$relation", 'r')
+                                ->andWhere("r.$relatedField = :$relatedField")
+                                ->setParameter($relatedField, $value);
+                } else {
+                    $queryBuilder->andWhere("e.$field = :$field")
+                                ->setParameter($field, $value);
+                }
             }
         }
 

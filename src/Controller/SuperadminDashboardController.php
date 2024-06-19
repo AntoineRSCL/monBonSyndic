@@ -20,12 +20,16 @@ class SuperadminDashboardController extends AbstractController
     {
         $building = $statsService->getBuildingCount();
         $apartment = $statsService->getApartmentCount();
+        $person = $statsService->getPersonCount();
+        $contact = $statsService->getContactCount();
         
 
         return $this->render('superadmin/dashboard/index.html.twig', [
             'stats' => [
                 'building' => $building,
-                'apartment' => $apartment
+                'apartment' => $apartment,
+                'contact' => $contact,
+                'person' => $person
             ]
         ]);
     }

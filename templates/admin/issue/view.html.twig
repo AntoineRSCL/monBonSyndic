@@ -1,0 +1,25 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Détails du problème{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Détails du problème</h1>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Problème de {{ issue.person.name }} {{ issue.person.firstname }}</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ issue.description }}</p>
+            </div>
+            <div class="card-footer text-muted">
+                Envoyé le {{ issue.date|date('d-m-Y') }}
+            </div>
+            <div class="card-footer text-center">
+                <a href="mailto:{{ issue.person.email }}?subject=Re:%20{{ issue.title }}" class="btn btn-primary"><i class="fas fa-reply"></i> Répondre</a>
+                <a href="{{ path('admin_issue_edit_status', {'id': issue.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Modifier le statut</a>
+                <a href="{{ path('admin_contact_index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Retour</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

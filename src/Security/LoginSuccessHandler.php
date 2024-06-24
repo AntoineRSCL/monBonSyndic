@@ -29,7 +29,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
         if ($buildingSlug) {
             $response = new RedirectResponse($this->router->generate('building_index', ['slug' => $buildingSlug]));
         } else {
-            $response = new RedirectResponse($this->router->generate('default_target_path'));
+            $response = new RedirectResponse($this->router->generate('homepage'));
         }
 
         return $response;

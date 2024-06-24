@@ -65,6 +65,6 @@ class AdminContactController extends AbstractController
 
         $this->addFlash('success', 'Le message a été supprimé avec succès.');
 
-        return $this->redirectToRoute('superadmin_contact_index');
+        return $this->redirectToRoute('admin_contact_index');
     }
 }

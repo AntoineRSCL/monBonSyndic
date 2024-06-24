@@ -42,7 +42,9 @@
                         <td class="text-center">
                             <a href="{{ path('admin_person_edit', {'id': person.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                             <a href="{{ path('admin_person_delete', {'id': person.id}) }}" class="btn btn-danger delete-person" data-id="{{ person.id }}"><i class="fas fa-trash"></i></a>
-                            <a href="{{ path('admin_person_send_email', {'id': person.id}) }}" class="btn btn-primary send-email" data-id="{{ person.id }}"><i class="fas fa-envelope"></i> Envoyer e-mail</a>
+                            {% if person.password == '' %}
+                                <a href="{{ path('admin_person_send_email', {'id': person.id}) }}" class="btn btn-primary send-email" data-id="{{ person.id }}"><i class="fas fa-envelope"></i> Envoyer e-mail</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

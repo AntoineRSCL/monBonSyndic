@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\IssueRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: IssueRepository::class)]
 class Issue
@@ -19,6 +20,7 @@ class Issue
     private ?Building $building = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le titre ne peut pas être vide.")]
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'issues')]
@@ -26,12 +28,14 @@ class Issue
     private ?Person $person = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $urgency = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le statut ne peut pas être vide.")]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

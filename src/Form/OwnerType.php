@@ -33,7 +33,8 @@ class OwnerType extends ApplicationType
                 "widget" => "single_text"
             ]))
             ->add('endDate', DateType::class, $this->getConfiguration("Date de fin", "Date de fin de la location",[
-                "widget" => "single_text"
+                "widget" => "single_text",
+                'required' => false, // Rend le champ facultatif
             ]))
             ->add('apartment', EntityType::class, [
                 'class' => Apartment::class,

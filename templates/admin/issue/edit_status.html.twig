@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier le statut du problème{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Modifier le statut du problème</h1>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Modifier le statut du problème de {{ issue.person.name }} {{ issue.person.firstname }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ path('admin_issue_update_status', {'id': issue.id}) }}" method="post">
+                    <div class="form-group">
+                        <label for="status">Nouveau statut :</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="envoyé" {% if issue.status == 'envoyé' %}selected{% endif %}>Envoyé</option>
+                            <option value="en cours" {% if issue.status == 'en cours' %}selected{% endif %}>En cours</option>
+                            <option value="terminé" {% if issue.status == 'terminé' %}selected{% endif %}>Terminé</option>
+                            <option value="En attente de traitement" {% if issue.status == 'En attente de traitement' %}selected{% endif %}>En attente de traitement</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-2"><i class="fas fa-save"></i> Enregistrer</button>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{{ path('admin_issue_view', {'id': issue.id}) }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Retour</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

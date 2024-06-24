@@ -1,0 +1,68 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des problèmes{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Administration des problèmes</h1>
+        {% if pagination.data is not empty %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Créateur</th>
+                        <th>Sujet</th>
+                        <th>Description</th>
+                        <th>Urgence</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in pagination.data %}
+                        <tr>
+                            <td>{{ issue.id }}</td>
+                            <td>{{ issue.person.name }}</td>
+                            <td>{{ issue.title }}</td>
+                            <td>{{ issue.description|length > 50 ? issue.description|slice(0, 50) ~ '...' : issue.description }}</td>
+                            <td>{{ issue.urgency }}</td>
+                            <td>{{ issue.status }}</td>
+                            <td>{{ issue.date|date('d-m-Y') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('admin_issue_view', {'id': issue.id}) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Voir détails</a>
+                                <a href="{{ path('admin_issue_delete', {'id': issue.id}) }}" class="btn btn-danger delete-issue"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ pagination.display() }}
+        {% else %}
+            <div class="alert alert-info text-center mt-3" role="alert">
+                Aucun problème trouvé.
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélection des liens de suppression des messages
+            const deleteLinks = document.querySelectorAll('.delete-issue');
+
+            // Ajout d'un gestionnaire d'événement sur chaque lien
+            deleteLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    // Empêcher le comportement par défaut du lien (navigation)
+                    event.preventDefault();
+
+                    // Afficher une boîte de dialogue de confirmation
+                    if (confirm('Êtes-vous sûr de vouloir supprimer ce problème ?')) {
+                        // Si l'utilisateur confirme, naviguer vers l'URL de suppression
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

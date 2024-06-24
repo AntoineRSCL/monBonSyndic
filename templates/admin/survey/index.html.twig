@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Hello AdminPersonController!{% endblock %}
+{% block title %}Administration des sondages{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
@@ -42,7 +42,7 @@
                             <td>{{ survey.votePercentages.Abstention }}%</td>
                             <td class="text-center">
                                 <a href="{{path("admin_survey_edit",{"id":survey.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                <a href="{{path("admin_survey_delete",{"id":survey.id})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                <a href="{{path("admin_survey_delete",{"id":survey.id})}}" class="btn btn-danger delete-survey"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -53,4 +53,19 @@
             {{ pagination.display() }}
         {% endif %}
     </div>
+
+    <script>
+        // JavaScript pour la confirmation de suppression
+        document.querySelectorAll('.delete-survey').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Empêche le lien de suivre immédiatement
+
+                // Afficher une boîte de dialogue de confirmation
+                if (confirm("Êtes-vous sûr de vouloir supprimer cette personne ?")) {
+                    // Si l'utilisateur confirme, suivre le lien de suppression
+                    window.location.href = this.getAttribute('href');
+                }
+            });
+        });
+    </script>
 {% endblock %}

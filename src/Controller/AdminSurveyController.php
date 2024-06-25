@@ -199,7 +199,7 @@ class AdminSurveyController extends AbstractController
         }
 
         // Supprimer l'image associée s'il en existe une
-        $picture = $news->getPicture();
+        $picture = $survey->getPicture();
         if ($picture) {
             $picturePath = $this->getParameter('pictures_directory').'/'.$picture;
             if (file_exists($picturePath)) {

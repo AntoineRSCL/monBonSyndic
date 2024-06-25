@@ -71,4 +71,32 @@ class  StatsService{
         ->setParameter('building', $building)
         ->getSingleScalarResult();
     }
+
+    public function getSurveyCountByBuilding($building): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(s) FROM App\Entity\Survey s WHERE s.building = :building")
+            ->setParameter('building', $building)
+            ->getSingleScalarResult();
+    }
+
+    public function getNewsCountByBuilding($building): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(n) FROM App\Entity\News n WHERE n.building = :building")
+            ->setParameter('building', $building)
+            ->getSingleScalarResult();
+    }
+
+    public function getEventCountByBuilding($building): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(e) FROM App\Entity\Event e WHERE e.building = :building")
+            ->setParameter('building', $building)
+            ->getSingleScalarResult();
+    }
+
+    public function getIssueCountByBuilding($building): int
+    {
+        return $this->manager->createQuery("SELECT COUNT(i) FROM App\Entity\Issue i WHERE i.building = :building")
+            ->setParameter('building', $building)
+            ->getSingleScalarResult();
+    }
 }

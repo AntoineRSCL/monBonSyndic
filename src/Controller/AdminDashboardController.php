@@ -29,6 +29,11 @@ class AdminDashboardController extends AbstractController
                 // S'il y a un immeuble associé à cet admin, obtenez le nombre de personnes dans cet immeuble
                 $personCount = $statsService->getPersonCountByBuilding($building);
                 $owner = $statsService->getOwnerCountByBuilding($building);
+                $survey = $statsService->getSurveyCountByBuilding($building);
+                $news = $statsService->getNewsCountByBuilding($building);
+                $event = $statsService->getEventCountByBuilding($building);
+                $contact = $statsService->getContactCount($building);
+                $issue = $statsService->getIssueCountByBuilding($building);
             }
         }
 
@@ -37,7 +42,12 @@ class AdminDashboardController extends AbstractController
         return $this->render('admin/dashboard/index.html.twig', [
             'stats' => [
                 'personCount' => $personCount,
-                'owner' => $owner
+                'owner' => $owner,
+                "survey" => $survey,
+                "news" => $news,
+                "event" => $event,
+                "contact" => $contact,
+                "issue" => $issue
             ]
         ]);
     }

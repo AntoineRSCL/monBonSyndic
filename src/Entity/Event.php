@@ -35,7 +35,7 @@ class Event
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 40, nullable: true)]
-    #[Assert\Length(max: 5, maxMessage:"La durée doit faire maximum 40 caractères")]
+    #[Assert\Length(max: 40, maxMessage:"La durée doit faire maximum 40 caractères")]
     private ?string $duration = null;
 
     public function getId(): ?int

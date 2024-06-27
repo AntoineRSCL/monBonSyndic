@@ -392,6 +392,10 @@
                         height: 90%;
                         @include flex(column);
                         justify-content: start;
+                        h4{
+                            text-align: center;
+                            padding: 2px;
+                        }
                         .imgSondage{
                             width: 65%;
                             height: 40%;

@@ -32,10 +32,10 @@ class Issue
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le statut ne peut pas être vide.")]
     private ?string $urgency = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Le statut ne peut pas être vide.")]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

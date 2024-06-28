@@ -29,6 +29,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Username</th>
                     <th>Prénom</th>
                     <th>Nom</th>
                     <th>Email</th>
@@ -42,6 +43,7 @@
                     {% for person in pagination.data %}
                         <tr>
                             <td>{{ person.id }}</td>
+                            <td>{{ person.username }}</td>
                             <td>{{ person.firstName }}</td>
                             <td>{{ person.name }}</td>
                             <td>{{ person.email }}</td>
@@ -56,6 +58,7 @@
                     {% for person in persons %}
                         <tr>
                             <td>{{ person.id }}</td>
+                            <td>{{ person.username }}</td>
                             <td>{{ person.firstName }}</td>
                             <td>{{ person.name }}</td>
                             <td>{{ person.email }}</td>
